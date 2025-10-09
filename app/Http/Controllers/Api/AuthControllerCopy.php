@@ -3,11 +3,13 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use Illuminate\Cache\RateLimiter;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 
-class AuthController extends Controller
+class AuthControllerCopy extends Controller
 {
     public function register(Request $request)
     {
@@ -16,7 +18,6 @@ class AuthController extends Controller
             'email'    => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
         ]);
-
 
         $user = User::create([
             'name'     => $request->name,
@@ -35,6 +36,16 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
+        $throttleKey = Str::lower($request->email) . '|' . $request->ip();
+
+        if (app(RateLimiter::class)->tooManyAttempts($throttleKey, 5)) {
+            return response()->json([
+                'message' => 'Too many login attempts. Please try again later.',
+            ], 429);
+        }
+
+        app(RateLimiter::class)->hit($throttleKey, 60);
+
         $request->validate([
             'email'    => 'required|email',
             'password' => 'required',
@@ -50,10 +61,20 @@ class AuthController extends Controller
 
         $token = $user->createToken('auth_token')->plainTextToken;
 
-        return response()->json([
+        $response = response()->json([
             'access_token' => $token,
             'token_type'   => 'Bearer',
-            'user'         => $user,
+            'user'         => [
+                'id'    => $user->id,
+                'name'  => $user->name,
+                'email' => $user->email,
+            ],
+        ]);
+
+        return $response->withHeaders([
+            'X-Content-Type-Options' => 'nosniff',
+            'X-Frame-Options'        => 'DENY',
+            'X-XSS-Protection'       => '1; mode=block',
         ]);
     }
 
