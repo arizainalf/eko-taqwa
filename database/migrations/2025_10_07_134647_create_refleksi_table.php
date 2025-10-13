@@ -13,8 +13,8 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->foreignUuid('device_id')->constrained('device');
             $table->string('gambar')->nullable();
-            $table->text('teks');
-            $table->text('penjelasan')->nullable();
+            $table->text('judul');
+            $table->text('deskripsi')->nullable();
             $table->timestamps();
         });
 

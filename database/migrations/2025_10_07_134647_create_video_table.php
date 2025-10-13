@@ -10,7 +10,7 @@ return new class extends Migration
     {
 
         Schema::create('video', function (Blueprint $table) {
-            $table->uuid();
+            $table->uuid('id')->primary();
             $table->foreignUuid('tema_id')->constrained('tema');
             $table->string('judul');
             $table->text('deskripsi')->nullable();

@@ -1,0 +1,30 @@
+@import '../../../../vendor/filament/filament/resources/css/theme.css';
+
+@source '../../../../app/Filament/**/*';
+@source '../../../../resources/views/filament/**/*';
+@source '../../../../resources/views/components';
+
+/* Perbesar modal untuk video */
+.filament-modal-content {
+    max-width: 95vw !important;
+    width: 95vw !important;
+    max-height: 95vh !important;
+}
+
+/* Untuk desktop yang lebih besar */
+@media (min-width: 1024px) {
+    .filament-modal-content {
+        max-width: 90vw !important;
+        width: 90vw !important;
+    }
+}
+
+/* YouTube video styling */
+.mediaContainer {
+    min-height: 60vh;
+}
+
+/* Pastikan iframe YouTube responsif */
+.mediaContainer iframe {
+    min-height: 500px;
+}

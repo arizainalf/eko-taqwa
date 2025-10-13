@@ -24,6 +24,6 @@ class JenisKaidah extends Model
     }
     public function kaidah()
     {
-        return $this->hasMany(Kaidah::class, 'jeniskaidah_id');
+        return $this->hasMany(Kaidah::class, 'jenis_kaidah_id');
     }
 }

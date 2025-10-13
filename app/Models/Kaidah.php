@@ -29,6 +29,6 @@ class Kaidah extends Model
     }
     public function jeniskaidah()
     {
-        return $this->belongsTo(JenisKaidah::class, 'jeniskaidah_id');
+        return $this->belongsTo(JenisKaidah::class, 'jenis_kaidah_id');
     }
 }

@@ -24,6 +24,6 @@ class JenisTema extends Model
     }
     public function tema()
     {
-        return $this->hasMany(Tema::class, 'jenistema_id');
+        return $this->hasMany(Tema::class, 'jenis_tema_id');
     }
 }

@@ -3,6 +3,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Fase;
+use App\Models\Mapel;
 use App\Traits\ApiResponder;
 use Illuminate\Http\Request;
 
@@ -15,42 +16,19 @@ class FaseController extends Controller
     public function index()
     {
         $fases = Fase::all();
-        return $this->successResponse($fases, 'List of Fases retrieved successfully.');
+        $mapel = Mapel::count();
+
+        $data = [
+            'fase'        => $fases,
+            'total_mapel' => $mapel,
+        ];
+        return $this->successResponse($data, 'List of Fases retrieved successfully.');
     }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        $request->validate([
-            'nama'      => 'required|string|max:255',
-            'ikon'      => 'required|string|max:255',
-            'deskripsi' => 'required|max:1000',
-        ]);
-
-        $fase = Fase::create([
-            'nama'      => $request->nama,
-            'ikon'      => $request->ikon,
-            'deskripsi' => $request->deskripsi,
-        ]);
-
-        return $this->successResponse($fase, 'Fase created successfully.');
-
-    }
-
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
         $fase = Fase::find($id);
         return $this->successResponse($fase, 'Fase detail retrieved successfully.');
     }
-
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, string $id)
     {
         $request->validate([

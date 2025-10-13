@@ -15,8 +15,6 @@ return new class extends Migration
             $table->text('deskripsi')->nullable();
             $table->integer('batas_waktu')->default(0);
             $table->boolean('aktif')->default(true);
-            $table->string('teknik')->nullable();
-            $table->string('model')->nullable();
             $table->timestamps();
         });
 

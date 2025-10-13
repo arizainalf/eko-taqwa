@@ -29,7 +29,7 @@ class Tema extends Model
     }
     public function jenistema()
     {
-        return $this->belongsTo(JenisTema::class, 'jenistema_id');
+        return $this->belongsTo(JenisTema::class, 'jenis_tema_id');
     }
     public function video()
     {

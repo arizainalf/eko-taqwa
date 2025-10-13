@@ -33,7 +33,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/user', [AuthController::class, 'user']);
 });
 
-Route::post('/chat/sendMessage', [ChatController::class, 'sendMessage']);
+Route::get('/chat/{id}', [ChatController::class, 'chat']);
+Route::post('/chat/send', [ChatController::class, 'sendMessage']);
 
 Route::get('/home', [HomeController::class, 'index']);
 
@@ -50,6 +51,10 @@ Route::resource('/jenis-tema', JenisTemaController::class);
 Route::resource('/kaidah', KaidahController::class);
 Route::resource('/hadist', HadistController::class);
 Route::resource('/ayat', AyatController::class);
-Route::resource('/kuis', KuisController::class);
+
 Route::resource('/pertanyaan', PertanyaanController::class);
 Route::resource('/hasil-kuis', HasilKuisController::class);
+
+Route::get('/kuis', [KuisController::class, 'index']);               // Daftar kuis aktif
+Route::get('/kuis/{id}', [KuisController::class, 'show']);           // Detail kuis
+Route::post('/kuis/{id}/submit', [KuisController::class, 'submit']); // Kirim jawaban
