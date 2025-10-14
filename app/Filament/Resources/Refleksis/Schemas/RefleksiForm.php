@@ -1,10 +1,10 @@
 <?php
 namespace App\Filament\Resources\Refleksis\Schemas;
 
-use Filament\Schemas\Schema;
+use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
-use Filament\Forms\Components\TextInput;
+use Filament\Schemas\Schema;
 
 class RefleksiForm
 {
@@ -15,7 +15,12 @@ class RefleksiForm
                 Select::make('device_id')
                     ->relationship('device', 'name')
                     ->required(),
-                TextInput::make('gambar'),
+                FileUpload::make('gambar')
+                    ->image()
+                    ->directory('refleksi')
+                    ->disk('public')
+                    ->visibility('public')
+                    ->maxSize(2048),
                 Textarea::make('judul')
                     ->required()
                     ->columnSpanFull(),

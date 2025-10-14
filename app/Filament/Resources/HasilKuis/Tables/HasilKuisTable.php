@@ -24,7 +24,7 @@ class HasilKuisTable
                         $perPage        = $loop->parent->perPage ?? 10;
                         return (string) (($currentPage - 1) * $perPage + $counter++);
                     }),
-                TextColumn::make('device.nama')
+                TextColumn::make('device.name')
                     ->searchable(),
                 TextColumn::make('kuis.judul')
                     ->searchable(),

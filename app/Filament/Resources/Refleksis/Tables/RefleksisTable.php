@@ -2,10 +2,13 @@
 namespace App\Filament\Resources\Refleksis\Tables;
 
 use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
+use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Hugomyb\FilamentMediaAction\Actions\MediaAction;
 
 class RefleksisTable
 {
@@ -27,6 +30,8 @@ class RefleksisTable
                 TextColumn::make('judul')
                     ->searchable(),
                 TextColumn::make('deskripsi')
+                    ->wrap()
+                    ->limit(50)
                     ->searchable(),
                 TextColumn::make('created_at')
                     ->dateTime()
@@ -41,7 +46,15 @@ class RefleksisTable
                 //
             ])
             ->recordActions([
+                MediaAction::make('lihat_media')
+                    ->modalHeading(fn($record) => $record->judul)
+                    ->icon('heroicon-o-photo')
+                    ->media(fn($record) => asset('storage/' . $record->gambar))
+                    ->mediaType('image')
+                    ->hiddenLabel(),
                 ViewAction::make(),
+                EditAction::make(),
+                DeleteAction::make(),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

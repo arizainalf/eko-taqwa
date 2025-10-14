@@ -1,7 +1,7 @@
 <?php
-
 namespace Database\Seeders;
 
+use Faker\Factory as Faker;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -10,213 +10,248 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        // ---- FASE ----
-        $faseAId = Str::uuid();
-        $faseBId = Str::uuid();
+        $faker = Faker::create('id_ID');
 
-        DB::table('fase')->insert([
-            ['id' => $faseAId, 'nama' => 'Fase A', 'deskripsi' => 'Untuk kelas 1–2 SD', 'created_at' => now(), 'updated_at' => now()],
-            ['id' => $faseBId, 'nama' => 'Fase B', 'deskripsi' => 'Untuk kelas 3–4 SD', 'created_at' => now(), 'updated_at' => now()],
-        ]);
-
-        // ---- MAPEL ----
-        $mapelId = Str::uuid();
-        DB::table('mapel')->insert([
-            ['id' => $mapelId, 'nama' => 'Ekologi Taqwa', 'deskripsi' => 'Pelajaran berbasis cinta dan ekologi takwa.', 'created_at' => now(), 'updated_at' => now()],
-        ]);
-
-        // ---- CP ----
-        $cpId = Str::uuid();
-        DB::table('cp')->insert([
-            [
-                'id' => $cpId,
-                'fase_id' => $faseAId,
-                'mapel_id' => $mapelId,
-                'deskripsi' => 'Peserta didik mampu menerapkan nilai ekologi dalam kehidupan sehari-hari.',
-                'pendekatan' => 'Saintifik',
-                'model' => 'Project Based Learning',
-                'teknik' => 'Diskusi reflektif',
-                'metode' => 'Observasi lapangan',
-                'taktik' => 'Kolaboratif',
+        // ----------------------------
+        // FASE
+        // ----------------------------
+        $faseIds = collect(['A', 'B', 'C'])->map(function ($fase) {
+            $id = Str::uuid();
+            DB::table('fase')->insert([
+                'id'         => $id,
+                'nama'       => 'Fase ' . $fase,
+                'deskripsi'  => 'Tingkatan pembelajaran fase ' . $fase,
                 'created_at' => now(),
                 'updated_at' => now(),
-            ],
-        ]);
+            ]);
+            return $id;
+        });
 
-        // ---- DEVICE ----
-        $deviceId = Str::uuid();
-        DB::table('device')->insert([
-            ['id' => $deviceId, 'device_id' => 'DEV-001', 'name' => 'Tablet Siswa 1', 'created_at' => now(), 'updated_at' => now()],
-        ]);
-
-        // ---- JENIS TEMA ----
-        $jenisTemaId = Str::uuid();
-        DB::table('jenis_tema')->insert([
-            ['id' => $jenisTemaId, 'nama' => 'Lingkungan', 'deskripsi' => 'Tema tentang alam dan kelestarian lingkungan.', 'created_at' => now(), 'updated_at' => now()],
-        ]);
-
-        // ---- TEMA ----
-        $temaId = Str::uuid();
-        DB::table('tema')->insert([
-            ['id' => $temaId, 'jenis_tema_id' => $jenisTemaId, 'nama' => 'Ekologi Cinta', 'deskripsi' => 'Menumbuhkan rasa cinta terhadap alam.', 'created_at' => now(), 'updated_at' => now()],
-        ]);
-
-        // ---- AYAT ----
-        DB::table('ayat')->insert([
-            [
-                'id' => Str::uuid(),
-                'tema_id' => $temaId,
-                'ayat' => 'Dan janganlah kamu membuat kerusakan di muka bumi setelah (Allah) memperbaikinya. (QS. Al-A’raf: 56)',
-                'terjemahan' => 'Larangan berbuat kerusakan di bumi.',
-                'penjelasan' => 'Ayat ini menegaskan pentingnya menjaga kelestarian alam.',
+        // ----------------------------
+        // MAPEL
+        // ----------------------------
+        $mapelIds = collect(['Ekologi Taqwa', 'KBC', 'Aqidah Akhlak'])->map(function ($mapel) use ($faker) {
+            $id = Str::uuid();
+            DB::table('mapel')->insert([
+                'id'         => $id,
+                'nama'       => $mapel,
+                'deskripsi'  => $faker->sentence(),
                 'created_at' => now(),
                 'updated_at' => now(),
-            ],
-        ]);
+            ]);
+            return $id;
+        });
 
-        // ---- HADIST ----
-        DB::table('hadist')->insert([
-            [
-                'id' => Str::uuid(),
-                'tema_id' => $temaId,
-                'hadist' => 'Kebersihan adalah sebagian dari iman.',
-                'terjemahan' => 'Menjaga kebersihan merupakan bagian dari keimanan.',
-                'penjelasan' => 'Hadist ini mengajarkan nilai kebersihan dan tanggung jawab lingkungan.',
+        // ----------------------------
+        // CP
+        // ----------------------------
+        foreach ($mapelIds as $i => $mapelId) {
+            DB::table('cp')->insert([
+                'id'         => Str::uuid(),
+                'fase_id'    => $faseIds[$i],
+                'mapel_id'   => $mapelId,
+                'deskripsi'  => $faker->paragraph(),
+                'pendekatan' => $faker->randomElement(['Saintifik', 'Proyek', 'Inquiry']),
+                'model'      => $faker->randomElement(['PBL', 'PjBL', 'Discovery Learning']),
+                'teknik'     => $faker->word(),
+                'metode'     => $faker->word(),
+                'taktik'     => $faker->word(),
                 'created_at' => now(),
                 'updated_at' => now(),
-            ],
-        ]);
+            ]);
+        }
 
-        // ---- JENIS KAIDAH ----
+        // ----------------------------
+        // DEVICE
+        // ----------------------------
+        $deviceIds = collect(range(1, 5))->map(function ($i) use ($faker) {
+            $id = Str::uuid();
+            DB::table('device')->insert([
+                'id'         => $id,
+                'device_id'  => 'DEV-' . str_pad($i, 3, '0', STR_PAD_LEFT),
+                'name'       => $faker->firstName . ' ' . $faker->lastName,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+            return $id;
+        });
+
+        // ----------------------------
+        // JENIS TEMA & TEMA
+        // ----------------------------
+        $jenisTemaIds = collect(['Lingkungan', 'Kemanusiaan', 'Teknologi'])->map(function ($tema) use ($faker) {
+            $id = Str::uuid();
+            DB::table('jenis_tema')->insert([
+                'id'         => $id,
+                'nama'       => $tema,
+                'deskripsi'  => $faker->sentence(),
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+            return $id;
+        });
+
+        $temaIds = $jenisTemaIds->flatMap(function ($jenisId) use ($faker) {
+            return collect(range(1, 3))->map(function () use ($jenisId, $faker) {
+                $id = Str::uuid();
+                DB::table('tema')->insert([
+                    'id'            => $id,
+                    'jenis_tema_id' => $jenisId,
+                    'nama'          => ucfirst($faker->word()) . ' Ekologi',
+                    'deskripsi'     => $faker->sentence(),
+                    'created_at'    => now(),
+                    'updated_at'    => now(),
+                ]);
+                return $id;
+            });
+        });
+
+        // ----------------------------
+        // AYAT, HADIST, KAIDAH, KITAB, VIDEO
+        // ----------------------------
         $jenisKaidahId = Str::uuid();
         DB::table('jenis_kaidah')->insert([
-            ['id' => $jenisKaidahId, 'nama' => 'Kaidah Fiqhiyah', 'deskripsi' => 'Prinsip dasar dalam hukum Islam.', 'created_at' => now(), 'updated_at' => now()],
+            'id'         => $jenisKaidahId,
+            'nama'       => 'Kaidah Fiqhiyah',
+            'deskripsi'  => 'Prinsip dasar dalam hukum Islam.',
+            'created_at' => now(),
+            'updated_at' => now(),
         ]);
 
-        // ---- KAIDAH ----
-        DB::table('kaidah')->insert([
-            [
-                'id' => Str::uuid(),
-                'tema_id' => $temaId,
+        foreach ($temaIds as $temaId) {
+            DB::table('ayat')->insert([
+                'id'         => Str::uuid(),
+                'tema_id'    => $temaId,
+                'ayat'       => 'Dan janganlah kamu membuat kerusakan di muka bumi setelah Allah memperbaikinya. (QS. Al-A’raf: 56)',
+                'terjemahan' => 'Larangan berbuat kerusakan di bumi.',
+                'penjelasan' => 'Pentingnya menjaga kelestarian alam.',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+
+            DB::table('hadist')->insert([
+                'id'         => Str::uuid(),
+                'tema_id'    => $temaId,
+                'hadist'     => 'Kebersihan adalah sebagian dari iman.',
+                'terjemahan' => 'Menjaga kebersihan merupakan bagian dari keimanan.',
+                'penjelasan' => 'Nilai tanggung jawab lingkungan.',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+
+            DB::table('kaidah')->insert([
+                'id'              => Str::uuid(),
+                'tema_id'         => $temaId,
                 'jenis_kaidah_id' => $jenisKaidahId,
-                'deskripsi' => 'Kemudharatan harus dihilangkan.',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-        ]);
+                'deskripsi'       => 'Kemudharatan harus dihilangkan.',
+                'created_at'      => now(),
+                'updated_at'      => now(),
+            ]);
 
-        // ---- KITAB ----
-        DB::table('kitab')->insert([
-            [
-                'id' => Str::uuid(),
-                'tema_id' => $temaId,
-                'kitab' => 'Kitab Al-Bughayah',
-                'penjelasan' => 'Membahas hubungan manusia dengan alam dan etika ekologis.',
+            DB::table('kitab')->insert([
+                'id'         => Str::uuid(),
+                'tema_id'    => $temaId,
+                'kitab'      => 'Kitab ' . $faker->word(),
+                'penjelasan' => $faker->sentence(),
                 'created_at' => now(),
                 'updated_at' => now(),
-            ],
-        ]);
+            ]);
 
-        // ---- VIDEO ----
-        DB::table('video')->insert([
-            [
-                'id' => Str::uuid(),
-                'tema_id' => $temaId,
-                'judul' => 'Ekologi Taqwa',
-                'deskripsi' => 'Video edukasi tentang cinta lingkungan.',
-                'link' => 'https://youtu.be/ekologi-taqwa',
+            DB::table('video')->insert([
+                'id'         => Str::uuid(),
+                'tema_id'    => $temaId,
+                'judul'      => 'Video ' . $faker->words(2, true),
+                'deskripsi'  => $faker->sentence(),
+                'link'       => 'https://youtu.be/' . Str::random(8),
                 'created_at' => now(),
                 'updated_at' => now(),
-            ],
-        ]);
+            ]);
+        }
 
-        // ---- KUIS ----
-        $kuisId = Str::uuid();
-        DB::table('kuis')->insert([
-            [
-                'id' => $kuisId,
-                'judul' => 'Kuis Ekologi Taqwa',
-                'deskripsi' => 'Uji pemahaman tentang ekologi takwa.',
-                'batas_waktu' => 300,
-                'aktif' => true,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-        ]);
+        // ----------------------------
+        // KUIS, PERTANYAAN, OPSI
+        // ----------------------------
+        $kuisIds = collect(range(1, 20))->map(function ($i) use ($faker) {
+            $id = Str::uuid();
+            DB::table('kuis')->insert([
+                'id'          => $id,
+                'judul'       => 'Kuis Ekologi #' . $i,
+                'deskripsi'   => $faker->sentence(),
+                'batas_waktu' => rand(180, 600),
+                'aktif'       => true,
+                'created_at'  => now(),
+                'updated_at'  => now(),
+            ]);
 
-        // ---- PERTANYAAN ----
-        $pertanyaanId = Str::uuid();
-        DB::table('pertanyaan')->insert([
-            [
-                'id' => $pertanyaanId,
-                'kuis_id' => $kuisId,
-                'teks_pertanyaan' => 'Apa arti ekologi dalam Islam?',
-                'poin' => 2,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-        ]);
+            // 10 pertanyaan per kuis
+            for ($q = 1; $q <= 10; $q++) {
+                $pertanyaanId = Str::uuid();
+                DB::table('pertanyaan')->insert([
+                    'id'              => $pertanyaanId,
+                    'kuis_id'         => $id,
+                    'teks_pertanyaan' => $faker->sentence() . '?',
+                    'poin'            => rand(1, 5),
+                    'created_at'      => now(),
+                    'updated_at'      => now(),
+                ]);
 
-        // ---- OPSI PERTANYAAN ----
-        DB::table('opsi_pertanyaan')->insert([
-            [
-                'id' => Str::uuid(),
-                'pertanyaan_id' => $pertanyaanId,
-                'jawaban' => 'Hubungan manusia dengan alam berdasarkan nilai takwa',
-                'benar' => true,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'id' => Str::uuid(),
-                'pertanyaan_id' => $pertanyaanId,
-                'jawaban' => 'Pemanfaatan alam tanpa batas',
-                'benar' => false,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-        ]);
+                // 4 opsi per pertanyaan
+                $benarIndex = rand(1, 4);
+                for ($j = 1; $j <= 4; $j++) {
+                    DB::table('opsi_pertanyaan')->insert([
+                        'id'            => Str::uuid(),
+                        'pertanyaan_id' => $pertanyaanId,
+                        'jawaban'       => $faker->words(3, true),
+                        'benar'         => $j === $benarIndex,
+                        'created_at'    => now(),
+                        'updated_at'    => now(),
+                    ]);
+                }
+            }
 
-        // ---- HASIL KUIS ----
-        DB::table('hasil_kuis')->insert([
-            [
-                'id' => Str::uuid(),
-                'device_id' => $deviceId,
-                'kuis_id' => $kuisId,
-                'skor' => 10,
-                'total_pertanyaan' => 1,
-                'jawaban_benar' => 1,
-                'jawaban_salah' => 0,
-                'waktu_pengerjaan' => 120,
-                'jawaban' => json_encode(['1' => 'A']),
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-        ]);
+            return $id;
+        });
 
-        // ---- REFLEKSI ----
-        DB::table('refleksi')->insert([
-            [
-                'id' => Str::uuid(),
-                'device_id' => $deviceId,
-                'gambar' => null,
-                'judul' => 'Menjaga Kebersihan Lingkungan',
-                'deskripsi' => 'Saya belajar bahwa menjaga kebersihan adalah ibadah.',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-        ]);
+        // ----------------------------
+        // HASIL KUIS, REFLEKSI, CHAT
+        // ----------------------------
+        foreach ($deviceIds as $deviceId) {
+            foreach ($kuisIds->random(5) as $kuisId) {
+                DB::table('hasil_kuis')->insert([
+                    'id'               => Str::uuid(),
+                    'device_id'        => $deviceId,
+                    'kuis_id'          => $kuisId,
+                    'skor'             => rand(5, 10),
+                    'total_pertanyaan' => 10,
+                    'jawaban_benar'    => rand(5, 10),
+                    'jawaban_salah'    => rand(0, 5),
+                    'waktu_pengerjaan' => rand(200, 600),
+                    'jawaban'          => json_encode(['1' => 'A', '2' => 'C']),
+                    'created_at'       => now(),
+                    'updated_at'       => now(),
+                ]);
+            }
 
-        // ---- CHAT ----
-        DB::table('chat')->insert([
-            [
-                'id' => Str::uuid(),
-                'device_id' => $deviceId,
-                'pesan' => 'Apa itu ekologi takwa?',
-                'jawaban' => 'Ekologi takwa adalah pendekatan cinta lingkungan dengan nilai ketuhanan.',
+            DB::table('refleksi')->insert([
+                'id'         => Str::uuid(),
+                'device_id'  => $deviceId,
+                'gambar'     => null,
+                'judul'      => 'Refleksi ' . $faker->words(2, true),
+                'deskripsi'  => $faker->paragraph(),
                 'created_at' => now(),
                 'updated_at' => now(),
-            ],
-        ]);
+            ]);
+
+            DB::table('chat')->insert([
+                'id'         => Str::uuid(),
+                'device_id'  => $deviceId,
+                'pesan'      => $faker->sentence() . '?',
+                'jawaban'    => $faker->sentence(),
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+        }
+
+        echo "✅ Seeder selesai: data besar berhasil dibuat!\n";
     }
 }
