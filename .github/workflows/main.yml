@@ -45,7 +45,7 @@ jobs:
 
       # 4️⃣ Install dependencies
       - name: 📦 Install Composer dependencies
-        run: composer install --no-dev --optimize-autoloader
+        run: composer install --no-dev --optimize-autoloader --no-scripts
 
       - name: 📦 Install NPM dependencies and build
         run: |
