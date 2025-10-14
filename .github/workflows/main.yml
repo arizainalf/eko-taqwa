@@ -53,11 +53,8 @@ jobs:
           npm run build
 
       # 5️⃣ Optimize Laravel
-      - name: 🚀 Optimize Laravel
-        run: |
-          php artisan config:cache
-          php artisan route:cache
-          php artisan view:cache
+      - name: 🚀 Skipping optimize laravel
+        run: echo "Skipping artisan optimize on GitHub Actions (handled on server)"
 
       # 6️⃣ Deploy ke Rumahweb via FTP (incremental)
       - name: 📤 Deploy to Rumahweb via FTP
