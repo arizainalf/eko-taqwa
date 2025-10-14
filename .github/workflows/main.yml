@@ -65,7 +65,7 @@ jobs:
           password: ${{ secrets.FTP_PASSWORD }}
           port: ${{ secrets.FTP_PORT }}
           local-dir: ./
-          server-dir: /public_html/eko-taqwa.bangkoding.my.id/   # ubah sesuai path project kamu
+          server-dir: /   # ubah sesuai path project kamu
           exclude: |
             .git*
             .github*
