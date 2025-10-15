@@ -9,6 +9,7 @@
         "php": "^8.2",
         "asmit/resized-column": "^1.1",
         "codewithdennis/filament-lucide-icons": "^4.0",
+        "doctrine/dbal": "^4.3",
         "filament/filament": "4.0",
         "filament/spatie-laravel-settings-plugin": "4.0",
         "hugomyb/filament-media-action": "^4.0",
