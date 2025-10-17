@@ -4,11 +4,13 @@ namespace App\Providers\Filament;
 
 use Filament\Panel;
 use Filament\PanelProvider;
+use Filament\Actions\Action;
 use Filament\Pages\Dashboard;
 use App\Settings\GeneralSetting;
 use Filament\Support\Colors\Color;
 use Filament\Widgets\AccountWidget;
 use App\Filament\Pages\PengaturanPage;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Storage;
 use Filament\Widgets\FilamentInfoWidget;
 use Filament\Http\Middleware\Authenticate;
@@ -23,17 +25,23 @@ use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
-use Filament\Actions\Action;
 
 class AdminPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
     {
 
-        $settings = app(GeneralSetting::class);
-        $logo = $settings->logo_path
-        ? Storage::disk('public')->url($settings->logo_path)
-        : null;
+        $logo = null;
+        $siteName = 'Eko Taqwa'; // Nama default
+
+        // HANYA JALANKAN JIKA TABEL 'settings' SUDAH ADA
+        if (Schema::hasTable('settings')) {
+            $settings = app(GeneralSetting::class);
+            $logo = $settings->logo_path
+                ? Storage::disk('public')->url($settings->logo_path)
+                : null;
+            $siteName = $settings->site_name ?? 'Eko Taqwa';
+        }
 
 
         return $panel

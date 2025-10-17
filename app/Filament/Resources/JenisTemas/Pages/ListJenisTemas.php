@@ -1,11 +1,11 @@
 <?php
-
 namespace App\Filament\Resources\JenisTemas\Pages;
 
+use App\Filament\Resources\JenisTemas\JenisTemaResource;
+use Asmit\ResizedColumn\HasResizableColumn;
+use Filament\Actions\Action;
 use Filament\Actions\CreateAction;
 use Filament\Resources\Pages\ListRecords;
-use Asmit\ResizedColumn\HasResizableColumn;
-use App\Filament\Resources\JenisTemas\JenisTemaResource;
 
 class ListJenisTemas extends ListRecords
 {
@@ -15,7 +15,13 @@ class ListJenisTemas extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            CreateAction::make(),
+            CreateAction::make()
+                ->icon('heroicon-o-plus')
+                ->label('Tambah'),
+            Action::make('bulkCreate')
+                ->label('Tambah Banyak')
+                ->icon('heroicon-o-queue-list')
+                ->url(static::getResource()::getUrl('bulk-create')),
         ];
     }
 }

@@ -2,11 +2,10 @@
 namespace App\Models;
 
 use App\Models\Tema;
-use App\Models\JenisKaidah;
-use Illuminate\Support\Str;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Kaidah extends Model
 {
@@ -26,9 +25,5 @@ class Kaidah extends Model
     public function tema()
     {
         return $this->belongsTo(Tema::class, 'tema_id');
-    }
-    public function jeniskaidah()
-    {
-        return $this->belongsTo(JenisKaidah::class, 'jenis_kaidah_id');
     }
 }

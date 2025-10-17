@@ -8,11 +8,11 @@ use App\Filament\Resources\Pertanyaans\Schemas\PertanyaanForm;
 use App\Filament\Resources\Pertanyaans\Tables\PertanyaansTable;
 use App\Models\Pertanyaan;
 use BackedEnum;
-use UnitEnum;
 use CodeWithDennis\FilamentLucideIcons\Enums\LucideIcon;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Tables\Table;
+use UnitEnum;
 
 class PertanyaanResource extends Resource
 {
@@ -43,9 +43,9 @@ class PertanyaanResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => ListPertanyaans::route('/'),
-            // 'create' => CreatePertanyaan::route('/create'),
-            'edit'  => EditPertanyaan::route('/{record}/edit'),
+            'index'                  => ListPertanyaans::route('/'),
+            'edit'                   => EditPertanyaan::route('/{record}/edit'),
+            'mass-create-pertanyaan' => Pages\MassCreatePertanyaan::route('/mass-create-pertanyaan'),
         ];
     }
 }

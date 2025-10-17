@@ -95,7 +95,7 @@ class ChatController extends Controller
             $response = Http::withToken(env('GROQ_API_KEY'))
                 ->timeout(30)
                 ->post('https://api.groq.com/openai/v1/chat/completions', [
-                    'model'       => 'llama3-8b-8192',
+                    'model'       => 'llama-3.1-8b-instant',
                     'messages'    => $messages,
                     'temperature' => 0.7,
                     'max_tokens'  => 1000,
@@ -175,7 +175,7 @@ class ChatController extends Controller
         }
 
         try {
-            $botReply = $this->callGroq($request->message);
+            $botReply = $this->callGroqWithContext($request->message, $device->device_id);
 
             // Hanya simpan ke DB jika berhasil
             Chat::create([

@@ -1,18 +1,13 @@
 <?php
-
 namespace App\Filament\Widgets;
 
-use App\Models\Ayat;
 use App\Models\Chat;
 use App\Models\Cp;
 use App\Models\Device;
 use App\Models\Fase;
-use App\Models\Hadist;
 use App\Models\HasilKuis;
-use App\Models\JenisKaidah;
 use App\Models\JenisTema;
 use App\Models\Kaidah;
-use App\Models\Kitab;
 use App\Models\Kuis;
 use App\Models\Mapel;
 use App\Models\Pertanyaan;
@@ -39,11 +34,7 @@ class DataOverviewWidget extends BaseWidget
             Stat::make('Perangkat', Device::count())->icon('heroicon-o-device-phone-mobile')->color('warning'),
             Stat::make('Jenis Tema', JenisTema::count())->icon('heroicon-o-tag')->color('gray'),
             Stat::make('Tema', Tema::count())->icon('heroicon-o-squares-2x2')->color('indigo'),
-            Stat::make('Ayat', Ayat::count())->icon('heroicon-o-clipboard-document-list')->color('emerald'),
-            Stat::make('Hadist', Hadist::count())->icon('heroicon-o-chat-bubble-left-right')->color('amber'),
             Stat::make('Kaidah', Kaidah::count())->icon('heroicon-o-scale')->color('rose'),
-            Stat::make('Jenis Kaidah', JenisKaidah::count())->icon('heroicon-o-rectangle-stack')->color('purple'),
-            Stat::make('Kitab', Kitab::count())->icon('heroicon-o-book-open')->color('cyan'),
             Stat::make('Video', Video::count())->icon('heroicon-o-play-circle')->color('pink'),
             Stat::make('Kuis', Kuis::count())->icon('heroicon-o-clipboard-document-check')->color('lime'),
             Stat::make('Pertanyaan', Pertanyaan::count())->icon('heroicon-o-question-mark-circle')->color('orange'),

@@ -13,7 +13,7 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->string('judul');
             $table->text('deskripsi')->nullable();
-            $table->integer('batas_waktu')->default(0);
+            $table->integer('batas_waktu')->default(60)->comment('dalam menit');
             $table->boolean('aktif')->default(true);
             $table->timestamps();
         });

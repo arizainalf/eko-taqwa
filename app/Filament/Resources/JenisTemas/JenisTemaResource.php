@@ -10,11 +10,10 @@ use App\Filament\Resources\JenisTemas\Tables\JenisTemasTable;
 use App\Models\JenisTema;
 use BackedEnum;
 use CodeWithDennis\FilamentLucideIcons\Enums\LucideIcon;
-use UnitEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
-use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use UnitEnum;
 
 class JenisTemaResource extends Resource
 {
@@ -43,9 +42,10 @@ class JenisTemaResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index'  => ListJenisTemas::route('/'),
-            'create' => CreateJenisTema::route('/create'),
-            'edit'   => EditJenisTema::route('/{record}/edit'),
+            'index'       => ListJenisTemas::route('/'),
+            'create'      => CreateJenisTema::route('/create'),
+            'edit'        => EditJenisTema::route('/{record}/edit'),
+            'bulk-create' => Pages\CreateBulk::route('/bulk-create'),
         ];
     }
 }

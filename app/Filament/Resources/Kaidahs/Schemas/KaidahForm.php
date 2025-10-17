@@ -1,9 +1,11 @@
 <?php
 namespace App\Filament\Resources\Kaidahs\Schemas;
 
-use Filament\Schemas\Schema;
+use App\Models\Tema;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
+use Filament\Schemas\Components\Section;
+use Filament\Schemas\Schema;
 
 class KaidahForm
 {
@@ -11,15 +13,31 @@ class KaidahForm
     {
         return $schema
             ->components([
-                Select::make('tema_id')
-                    ->relationship('tema', 'nama')
-                    ->required(),
-                Select::make('jenis_kaidah_id')
-                    ->relationship('jeniskaidah', 'nama')
-                    ->required(),
-                Textarea::make('deskripsi')
-                    ->required()
-                    ->columnSpanFull(),
+                Section::make('Kaidah')
+                    ->description('Masukkan data Kaidah.')
+                    ->schema([
+                        Select::make('tema_id')
+                            ->required()
+                            ->label('Tema')
+                            ->options(Tema::pluck('nama', 'id')),
+                        Select::make('jenis_kaidah')
+                            ->options(['ushuliyah' => 'Kaidah Ushuliyah', 'fiqhiyah' => 'Kaidah Fiqhiyah'])
+                            ->required(),
+                        Textarea::make('kaidah')
+                            ->required()
+                            ->columnSpanFull(),
+                        Textarea::make('kaidah_latin')
+                            ->nullable()
+                            ->columnSpanFull(),
+                        Textarea::make('terjemahan')
+                            ->nullable()
+                            ->columnSpanFull(),
+                        Textarea::make('deskripsi')
+                            ->nullable()
+                            ->columnSpanFull(),
+                    ])
+                    ->columnSpanFull() // Bisa juga diberi kolom
+                    ->collapsible(),
             ]);
     }
 }

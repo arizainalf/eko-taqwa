@@ -1,18 +1,19 @@
 <?php
 namespace App\Filament\Resources\Cps;
 
-use UnitEnum;
-use BackedEnum;
-use App\Models\Cp;
-use Filament\Tables\Table;
-use Filament\Schemas\Schema;
-use Filament\Resources\Resource;
+use App\Filament\Resources\Cps\Pages\CreateCp;
 use App\Filament\Resources\Cps\Pages\EditCp;
 use App\Filament\Resources\Cps\Pages\ListCps;
-use App\Filament\Resources\Cps\Pages\CreateCp;
+use App\Filament\Resources\Cps\Pages\MassCreateCp;
 use App\Filament\Resources\Cps\Schemas\CpForm;
 use App\Filament\Resources\Cps\Tables\CpsTable;
+use App\Models\Cp;
+use BackedEnum;
 use CodeWithDennis\FilamentLucideIcons\Enums\LucideIcon;
+use Filament\Resources\Resource;
+use Filament\Schemas\Schema;
+use Filament\Tables\Table;
+use UnitEnum;
 
 class CpResource extends Resource
 {
@@ -23,10 +24,9 @@ class CpResource extends Resource
     protected static string|UnitEnum|null $navigationGroup = 'Eko CP';
 
     protected static ?string $navigationLabel = 'Capaian Pembelajaran';
+    protected static ?int $navigationSort     = 3;
 
-    protected static ?int $navigationSort = 3;
-
-    protected static ?string $recordTitleAttribute = 'deskripsi';
+    protected static ?string $recordTitleAttribute = 'nama';
 
     public static function form(Schema $schema): Schema
     {
@@ -48,9 +48,10 @@ class CpResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index'  => ListCps::route('/'),
-            'create' => CreateCp::route('/create'),
-            'edit'   => EditCp::route('/{record}/edit'),
+            'index'          => ListCps::route('/'),
+            'create'         => CreateCp::route('/create'),
+            'edit'           => EditCp::route('/{record}/edit'),
+            'mass-create-cp' => MassCreateCp::route('/mass-create-cp'),
         ];
     }
 }

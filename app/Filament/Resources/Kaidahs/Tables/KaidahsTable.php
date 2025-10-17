@@ -24,11 +24,16 @@ class KaidahsTable
                     }),
                 TextColumn::make('tema.nama')
                     ->searchable(),
-                TextColumn::make('jeniskaidah.nama')
-                    ->searchable(),
-                TextColumn::make('deskripsi')
+                TextColumn::make('jenis_kaidah')
+                    ->label('Jenis Kaidah')
                     ->searchable()
-                    ->limit(50),
+                    ->formatStateUsing(fn($state) => 'Kaidah ' . ucfirst($state)),
+                TextColumn::make('kaidah')
+                    ->wrap(),
+                TextColumn::make('kaidah_latin')
+                    ->wrap(),
+                TextColumn::make('terjemahan')
+                    ->wrap(),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

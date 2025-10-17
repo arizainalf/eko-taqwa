@@ -1,11 +1,10 @@
 <?php
-
 namespace App\Filament\Resources\Devices\Pages;
 
+use App\Filament\Resources\Devices\DeviceResource;
+use Asmit\ResizedColumn\HasResizableColumn;
 use Filament\Actions\CreateAction;
 use Filament\Resources\Pages\ListRecords;
-use Asmit\ResizedColumn\HasResizableColumn;
-use App\Filament\Resources\Devices\DeviceResource;
 
 class ListDevices extends ListRecords
 {

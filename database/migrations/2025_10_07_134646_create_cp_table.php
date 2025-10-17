@@ -13,12 +13,14 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->foreignUuid('fase_id')->constrained('fase');
             $table->foreignUuid('mapel_id')->constrained('mapel');
+            $table->enum('metode_pembelajaran', ['rumah', 'sekolah'])->default('sekolah');
+            $table->string('nama');
             $table->text('deskripsi');
-            $table->string('pendekatan')->nullable();
-            $table->string('model')->nullable();
-            $table->string('teknik')->nullable();
-            $table->string('metode')->nullable();
-            $table->string('taktik')->nullable();
+            $table->text('pendekatan')->nullable();
+            $table->text('model')->nullable();
+            $table->text('teknik')->nullable();
+            $table->text('metode')->nullable();
+            $table->text('taktik')->nullable();
             $table->timestamps();
         });
 

@@ -47,17 +47,19 @@ class DatabaseSeeder extends Seeder
         // ----------------------------
         foreach ($mapelIds as $i => $mapelId) {
             DB::table('cp')->insert([
-                'id'         => Str::uuid(),
-                'fase_id'    => $faseIds[$i],
-                'mapel_id'   => $mapelId,
-                'deskripsi'  => $faker->paragraph(),
-                'pendekatan' => $faker->randomElement(['Saintifik', 'Proyek', 'Inquiry']),
-                'model'      => $faker->randomElement(['PBL', 'PjBL', 'Discovery Learning']),
-                'teknik'     => $faker->word(),
-                'metode'     => $faker->word(),
-                'taktik'     => $faker->word(),
-                'created_at' => now(),
-                'updated_at' => now(),
+                'id'                  => Str::uuid(),
+                'fase_id'             => $faseIds[$i],
+                'mapel_id'            => $mapelId,
+                'metode_pembelajaran' => $faker->randomElement(['rumah', 'sekolah']),
+                'nama'                => 'CP untuk ' . $faker->words(2, true),
+                'deskripsi'           => $faker->paragraph(),
+                'pendekatan'          => $faker->text(75),
+                'model'               => $faker->text(75),
+                'teknik'              => $faker->text(75),
+                'metode'              => $faker->text(75),
+                'taktik'              => $faker->text(75),
+                'created_at'          => now(),
+                'updated_at'          => now(),
             ]);
         }
 
@@ -75,6 +77,14 @@ class DatabaseSeeder extends Seeder
             ]);
             return $id;
         });
+
+        DB::table('device')->insert([
+            'id'         => Str::uuid(),
+            'device_id'  => '123123123',
+            'name'       => 'arizainalf',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
 
         // ----------------------------
         // JENIS TEMA & TEMA
@@ -109,52 +119,32 @@ class DatabaseSeeder extends Seeder
         // ----------------------------
         // AYAT, HADIST, KAIDAH, KITAB, VIDEO
         // ----------------------------
-        $jenisKaidahId = Str::uuid();
-        DB::table('jenis_kaidah')->insert([
-            'id'         => $jenisKaidahId,
-            'nama'       => 'Kaidah Fiqhiyah',
-            'deskripsi'  => 'Prinsip dasar dalam hukum Islam.',
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
 
         foreach ($temaIds as $temaId) {
-            DB::table('ayat')->insert([
+
+            DB::table('dalil')->insert([
                 'id'         => Str::uuid(),
                 'tema_id'    => $temaId,
-                'ayat'       => 'Dan janganlah kamu membuat kerusakan di muka bumi setelah Allah memperbaikinya. (QS. Al-A’raf: 56)',
-                'terjemahan' => 'Larangan berbuat kerusakan di bumi.',
+                'jenis'      => 'ayat',
+                'teks_asli'  => 'وَلَا تُفْسِدُوا فِي الْأَرْضِ بَعْدَ إِصْلَاحِهَا ۚ ذَٰلِكُمْ خَيْرٌ لَّكُمْ إِن كُنتُم مُّؤْمِنِينَ',
+                'terjemahan' => 'Dan janganlah kamu membuat kerusakan di muka
+                bumi setelah Allah memperbaikinya. Itu lebih baik bagimu jika kamu orang-orang yang beriman.',
+                'sumber'     => 'QS. Al-A’raf: 56',
                 'penjelasan' => 'Pentingnya menjaga kelestarian alam.',
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);
 
-            DB::table('hadist')->insert([
-                'id'         => Str::uuid(),
-                'tema_id'    => $temaId,
-                'hadist'     => 'Kebersihan adalah sebagian dari iman.',
-                'terjemahan' => 'Menjaga kebersihan merupakan bagian dari keimanan.',
-                'penjelasan' => 'Nilai tanggung jawab lingkungan.',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ]);
-
             DB::table('kaidah')->insert([
-                'id'              => Str::uuid(),
-                'tema_id'         => $temaId,
-                'jenis_kaidah_id' => $jenisKaidahId,
-                'deskripsi'       => 'Kemudharatan harus dihilangkan.',
-                'created_at'      => now(),
-                'updated_at'      => now(),
-            ]);
-
-            DB::table('kitab')->insert([
-                'id'         => Str::uuid(),
-                'tema_id'    => $temaId,
-                'kitab'      => 'Kitab ' . $faker->word(),
-                'penjelasan' => $faker->sentence(),
-                'created_at' => now(),
-                'updated_at' => now(),
+                'id'           => Str::uuid(),
+                'tema_id'      => $temaId,
+                'jenis_kaidah' => 'fiqhiyah',
+                'kaidah'       => 'المَضَرَّةُ تُزَالُ',
+                'kaidah_latin' => 'Al-madharratu tuzaal',
+                'terjemahan'   => 'Kemudharatan harus dihilangkan.',
+                'deskripsi'    => 'Prinsip dalam fiqh yang menekankan pentingnya menghilangkan bahaya atau mudharat demi kebaikan umat.',
+                'created_at'   => now(),
+                'updated_at'   => now(),
             ]);
 
             DB::table('video')->insert([

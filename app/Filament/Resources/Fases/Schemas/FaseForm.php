@@ -3,6 +3,7 @@ namespace App\Filament\Resources\Fases\Schemas;
 
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
+use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 
 class FaseForm
@@ -11,11 +12,16 @@ class FaseForm
     {
         return $schema
             ->components([
-                TextInput::make('nama')
-                    ->required(),
-                // TextInput::make('ikon'),
-                Textarea::make('deskripsi')
-                    ->columnSpanFull(),
+                Section::make('Informasi Fase')
+                    ->description('Masukkan data Fase')
+                    ->schema([
+                        TextInput::make('nama')
+                            ->required(),
+                        Textarea::make('deskripsi')
+                            ->columnSpanFull(),
+                    ])
+                    ->columnSpanFull() // Bisa juga diberi kolom
+                    ->collapsible(),
             ]);
     }
 }

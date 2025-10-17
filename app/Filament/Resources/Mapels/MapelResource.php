@@ -1,17 +1,17 @@
 <?php
 namespace App\Filament\Resources\Mapels;
 
-use UnitEnum;
-use BackedEnum;
-use App\Models\Mapel;
-use Filament\Tables\Table;
-use Filament\Schemas\Schema;
-use Filament\Resources\Resource;
 use App\Filament\Resources\Mapels\Pages\EditMapel;
 use App\Filament\Resources\Mapels\Pages\ListMapels;
 use App\Filament\Resources\Mapels\Schemas\MapelForm;
 use App\Filament\Resources\Mapels\Tables\MapelsTable;
+use App\Models\Mapel;
+use BackedEnum;
 use CodeWithDennis\FilamentLucideIcons\Enums\LucideIcon;
+use Filament\Resources\Resource;
+use Filament\Schemas\Schema;
+use Filament\Tables\Table;
+use UnitEnum;
 
 class MapelResource extends Resource
 {
@@ -43,8 +43,9 @@ class MapelResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => ListMapels::route('/'),
-            'edit'  => EditMapel::route('/{record}/edit'),
+            'index'             => ListMapels::route('/'),
+            'edit'              => EditMapel::route('/{record}/edit'),
+            'mass-create-mapel' => Pages\MassCreateMapel::route('/mass-create-mapel'),
         ];
     }
 }

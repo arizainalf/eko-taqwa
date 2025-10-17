@@ -12,8 +12,11 @@ return new class extends Migration
         Schema::create('kaidah', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->foreignUuid('tema_id')->constrained('tema');
-            $table->foreignUuid('jenis_kaidah_id')->constrained('jenis_kaidah');
-            $table->text('deskripsi');
+            $table->enum('jenis_kaidah', ['ushuliyah', 'fiqhiyah']);
+            $table->text('kaidah');
+            $table->text('kaidah_latin')->nullable();
+            $table->text('terjemahan')->nullable();
+            $table->text('deskripsi')->nullable();
             $table->timestamps();
         });
 

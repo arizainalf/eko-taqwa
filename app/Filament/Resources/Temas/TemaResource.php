@@ -41,7 +41,8 @@ class TemaResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => ListTemas::route('/'),
+            'index'            => ListTemas::route('/'),
+            'mass-create-tema' => Pages\MassCreateTema::route('/mass-create-tema'),
         ];
     }
 }

@@ -33,8 +33,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/user', [AuthController::class, 'user']);
 });
 
-Route::get('/chat/{id}', [ChatController::class, 'chat']);
 Route::post('/chat/send', [ChatController::class, 'sendMessage']);
+Route::get('/chat/{id}', [ChatController::class, 'chat']);
 
 Route::get('/home', [HomeController::class, 'index']);
 
@@ -43,6 +43,11 @@ Route::post('/device/create', [DeviceController::class, 'create']);
 Route::get('/device/{id}', [DeviceController::class, 'show']);
 
 Route::resource('/fase', FaseController::class);
+
+Route::get('/fase', [FaseController::class, 'index']);
+Route::get('/fase/{id}', [FaseController::class, 'show']);
+Route::get('/fase/{faseId}/mapel/{mapelId}/cp', [CpController::class, 'faseMapel']);
+
 Route::resource('/tema', TemaController::class);
 Route::resource('/refleksi', RefleksiController::class);
 Route::resource('/cp', CpController::class);

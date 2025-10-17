@@ -14,14 +14,16 @@ class JenisTemaForm
         return $schema
             ->components([
                 Section::make('Jenis Tema')
-                    ->icon(LucideIcon::LibrarySquare)
+                    ->label('Masukan data Jenis Tema')
+                    ->icon(LucideIcon::SquareLibrary)
                     ->columns(1)
                     ->schema([
                         TextInput::make('nama')
                             ->required(),
                         Textarea::make('deskripsi')
                             ->columnSpanFull(),
-                    ]),
+                    ])
+                    ->columnSpanFull(), // Bisa juga diberi kolom
             ]);
     }
 }

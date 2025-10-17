@@ -1,8 +1,6 @@
 <?php
 namespace App\Filament\Resources\Fases;
 
-use App\Filament\Resources\Fases\Pages\CreateFase;
-use App\Filament\Resources\Fases\Pages\EditFase;
 use App\Filament\Resources\Fases\Pages\ListFases;
 use App\Filament\Resources\Fases\Schemas\FaseForm;
 use App\Filament\Resources\Fases\Tables\FasesTable;
@@ -21,8 +19,6 @@ class FaseResource extends Resource
     protected static string|BackedEnum|null $navigationIcon = LucideIcon::GalleryHorizontalEnd;
 
     protected static string|UnitEnum|null $navigationGroup = 'Eko CP';
-
-    
 
     protected static ?int $navigationSort = 1;
 
@@ -46,9 +42,8 @@ class FaseResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index'  => ListFases::route('/'),
-            'create' => CreateFase::route('/create'),
-            'edit'   => EditFase::route('/{record}/edit'),
+            'index'            => ListFases::route('/'),
+            'mass-create-fase' => Pages\MassCreateFase::route('/mass-create-fase'),
         ];
     }
 }
