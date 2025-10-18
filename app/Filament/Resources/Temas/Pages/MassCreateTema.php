@@ -79,7 +79,6 @@ class MassCreateTema extends Page
                 'nama'          => $item['nama'],
                 'deskripsi'     => $item['deskripsi'],
             ]);
-
         }
 
         Notification::make()

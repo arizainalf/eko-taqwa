@@ -15,6 +15,7 @@ return new class extends Migration
             $table->string('gambar')->nullable();
             $table->text('judul');
             $table->text('deskripsi')->nullable();
+            $table->date('tanggal')->default(now());
             $table->timestamps();
         });
 

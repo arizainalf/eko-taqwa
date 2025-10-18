@@ -46,6 +46,7 @@ class CreateBulk extends Page implements HasSchemas
                             ])
                             ->addActionLabel('Tambah Jenis Tema')
                             ->collapsible()
+                            ->hiddenLabel()
                             ->defaultItems(1)
                             ->columnSpanFull(),
                     ])

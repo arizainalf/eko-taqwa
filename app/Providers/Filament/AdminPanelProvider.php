@@ -11,7 +11,9 @@ use Filament\Support\Colors\Color;
 use Filament\Widgets\AccountWidget;
 use App\Filament\Pages\PengaturanPage;
 use Illuminate\Support\Facades\Schema;
+use Filament\Navigation\NavigationItem;
 use Illuminate\Support\Facades\Storage;
+use Filament\Navigation\NavigationGroup;
 use Filament\Widgets\FilamentInfoWidget;
 use Filament\Http\Middleware\Authenticate;
 use App\Filament\Widgets\DataOverviewWidget;
@@ -49,7 +51,7 @@ class AdminPanelProvider extends PanelProvider
             ->sidebarFullyCollapsibleOnDesktop()
             ->id('admin')
             ->path('')
-             ->favicon($logo ?? null)
+            ->favicon($logo ?? null)
             ->login()
             ->darkMode(false)
             ->brandName($settings->site_name ?? 'Eko Taqwa')
@@ -69,14 +71,26 @@ class AdminPanelProvider extends PanelProvider
                  ResizedColumnPlugin::make()
                 ->preserveOnDB()
             )
-             ->navigationGroups([
-            'Tema',
-            'Eko CP',
-            'Eko Media',
-            'Eko Kaidah',
-            'Eko Ayat Hadist',
-            'Eko Refleksi',
-            'User Management',
+            ->navigationGroups([
+            NavigationGroup::make('Tema'),
+            NavigationGroup::make('Eko CP'),
+            NavigationGroup::make('Eko Media'),
+            NavigationGroup::make('Eko Kaidah'),
+            NavigationGroup::make('Eko Ayat Hadist'),
+            NavigationGroup::make('Eko Refleksi'),
+            NavigationGroup::make('User Management'),
+            ])
+            ->navigationItems([
+            NavigationItem::make('API Docs')
+                ->icon('heroicon-o-book-open')
+                ->url(url('/api/documentation'))
+                ->sort(9)
+                ->openUrlInNewTab(),
+            NavigationItem::make('Logout')
+                ->url(url('/logout'))
+                ->sort(10)
+                ->icon('heroicon-o-arrow-right-on-rectangle')
+                ->openUrlInNewTab(false)
             ])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\Filament\Widgets')
             ->widgets([

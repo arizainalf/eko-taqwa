@@ -33,6 +33,9 @@ class RefleksisTable
                     ->wrap()
                     ->limit(50)
                     ->searchable(),
+                TextColumn::make('tanggal')
+                    ->date()
+                    ->sortable(),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

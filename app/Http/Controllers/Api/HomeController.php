@@ -1,6 +1,4 @@
 <?php
-// app/Http/Controllers/Api/HomeController.php
-
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
@@ -14,17 +12,58 @@ use App\Models\Video;
 use App\Traits\ApiResponder;
 use Illuminate\Http\Request;
 
+/**
+ * @OA\Tag(
+ *     name="Home",
+ *     description="API untuk halaman dashboard dan pencarian di aplikasi EKO"
+ * )
+ */
 class HomeController extends Controller
 {
     use ApiResponder;
+
+    /**
+     * @OA\Get(
+     *     path="/api/home",
+     *     summary="Menampilkan data dashboard utama",
+     *     tags={"Home"},
+     *     @OA\Parameter(
+     *         name="Device-ID",
+     *         in="header",
+     *         required=false,
+     *         description="ID perangkat pengguna (opsional)",
+     *         @OA\Schema(type="string", example="d6f12b6e-0ad3-4b54-90d2-90e4123c1ef2")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Dashboard data retrieved successfully",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example=true),
+     *             @OA\Property(property="data", type="object",
+     *                 @OA\Property(property="stats", type="object",
+     *                     @OA\Property(property="total_tema", type="integer", example=12),
+     *                     @OA\Property(property="total_kuis", type="integer", example=4),
+     *                     @OA\Property(property="total_video", type="integer", example=9),
+     *                     @OA\Property(property="total_cp", type="integer", example=6),
+     *                     @OA\Property(property="total_kaidah", type="integer", example=5),
+     *                     @OA\Property(property="total_refleksi", type="integer", example=8),
+     *                     @OA\Property(property="random_video", type="object"),
+     *                     @OA\Property(property="device", type="object"),
+     *                     @OA\Property(property="kuis_selesai", type="integer", example=2)
+     *                 ),
+     *                 @OA\Property(property="featured_tema", type="array", @OA\Items(type="object")),
+     *                 @OA\Property(property="active_kuis", type="array", @OA\Items(type="object"))
+     *             )
+     *         )
+     *     )
+     * )
+     */
     public function index(Request $request)
     {
         $deviceId = $request->header('Device-ID');
 
-        // Get device data
         $device = Device::where('id', $deviceId)->first();
 
-        // Get stats for dashboard
         $stats = [
             'total_tema'     => Tema::count(),
             'total_kuis'     => Kuis::where('aktif', true)->count(),
@@ -32,15 +71,11 @@ class HomeController extends Controller
             'total_cp'       => Cp::count(),
             'total_kaidah'   => Kaidah::count(),
             'total_refleksi' => Refleksi::count(),
-            'total_ayat'      => \App\Models\Ayat::count(),
-            'total_hadist'   => \App\Models\Hadist::count(),
-            'total_kitab'    => \App\Models\Kitab::count(),
             'random_video'   => Video::inRandomOrder()->first(),
             'device'         => $device,
             'kuis_selesai'   => $device ? $device->hasilKuis()->count() : 0,
         ];
 
-        // Get featured content
         $featuredTema = Tema::with(['jenisTema', 'video'])
             ->latest()
             ->take(5)
@@ -60,6 +95,32 @@ class HomeController extends Controller
         ]);
     }
 
+    /**
+     * @OA\Get(
+     *     path="/api/search",
+     *     summary="Mencari data tema, kuis, dan video berdasarkan keyword",
+     *     tags={"Home"},
+     *     @OA\Parameter(
+     *         name="q",
+     *         in="query",
+     *         required=true,
+     *         description="Kata kunci pencarian",
+     *         @OA\Schema(type="string", example="shalat")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Search results retrieved successfully",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example=true),
+     *             @OA\Property(property="data", type="object",
+     *                 @OA\Property(property="tema", type="array", @OA\Items(type="object")),
+     *                 @OA\Property(property="kuis", type="array", @OA\Items(type="object")),
+     *                 @OA\Property(property="video", type="array", @OA\Items(type="object"))
+     *             )
+     *         )
+     *     )
+     * )
+     */
     public function search(Request $request)
     {
         $keyword = $request->query('q');

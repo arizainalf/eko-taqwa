@@ -1,0 +1,1503 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "API Eko CP",
+        "description": "Dokumentasi API untuk data Fase, Mapel, dan CP.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://my-default-host.com",
+            "description": "Server utama"
+        }
+    ],
+    "paths": {
+        "/api/device": {
+            "post": {
+                "tags": [
+                    "Device"
+                ],
+                "summary": "Daftarkan device baru",
+                "operationId": "d4ed35a749348f52f7793039a36f95fa",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "device_id",
+                                    "name"
+                                ],
+                                "properties": {
+                                    "device_id": {
+                                        "type": "string",
+                                        "example": "1234-5678-ABCD"
+                                    },
+                                    "name": {
+                                        "type": "string",
+                                        "example": "HP Ariza"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Device berhasil dibuat",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "string",
+                                                    "example": "1"
+                                                },
+                                                "device_id": {
+                                                    "type": "string",
+                                                    "example": "1234-5678-ABCD"
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "HP Ariza"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Device created successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validasi gagal (misalnya name sudah terdaftar)"
+                    }
+                }
+            }
+        },
+        "/api/device/{id}": {
+            "get": {
+                "tags": [
+                    "Device"
+                ],
+                "summary": "Lihat detail device berdasarkan ID",
+                "operationId": "7b1eab18f5f48e5d380dc9872851d695",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Device ID unik (UUID atau string ID perangkat)",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "1234-5678-ABCD"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Device ditemukan",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "device_id": {
+                                                    "type": "string",
+                                                    "example": "1234-5678-ABCD"
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "HP Ariza"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Device tidak ditemukan"
+                    }
+                }
+            }
+        },
+        "/api/jenis-tema": {
+            "get": {
+                "tags": [
+                    "Ayat & Hadist"
+                ],
+                "summary": "Ambil semua jenis tema",
+                "operationId": "c33970b31372f8a7f29a8d99fd7a977d",
+                "responses": {
+                    "200": {
+                        "description": "Daftar Jenis Tema berhasil diambil",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "nama_jenis": {
+                                                        "type": "string",
+                                                        "example": "Akidah"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "List of Jenis Tema retrieved successfully."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/tema": {
+            "get": {
+                "tags": [
+                    "Ayat & Hadist"
+                ],
+                "summary": "Ambil semua tema",
+                "operationId": "b2ea974f7a09b5678b2ce921b11e8d6d",
+                "responses": {
+                    "200": {
+                        "description": "Daftar Tema berhasil diambil",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "nama_tema": {
+                                                        "type": "string",
+                                                        "example": "Kebersihan dalam Islam"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "List of Tema retrieved successfully."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/tema/{tema_id}/dalil": {
+            "get": {
+                "tags": [
+                    "Ayat & Hadist"
+                ],
+                "summary": "Ambil semua ayat/hadist berdasarkan tema ID",
+                "operationId": "a89a414dab9e4f763e14702bbe21e14b",
+                "parameters": [
+                    {
+                        "name": "tema_id",
+                        "in": "path",
+                        "description": "ID Tema",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Daftar ayat/hadist berhasil diambil",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 10
+                                                    },
+                                                    "content": {
+                                                        "type": "string",
+                                                        "example": "Bersihkanlah dirimu, sesungguhnya kebersihan adalah sebagian dari iman."
+                                                    },
+                                                    "sumber": {
+                                                        "type": "string",
+                                                        "example": "HR. Muslim"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "List of Ayat and Hadist retrieved successfully."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/dalil/{id}": {
+            "get": {
+                "tags": [
+                    "Ayat & Hadist"
+                ],
+                "summary": "Lihat detail ayat/hadist berdasarkan ID",
+                "operationId": "d4905605930f55911446ab48f558a016",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID Dalil",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 10
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Detail ayat/hadist berhasil diambil",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 10
+                                                },
+                                                "content": {
+                                                    "type": "string",
+                                                    "example": "Sesungguhnya amal itu tergantung pada niat."
+                                                },
+                                                "sumber": {
+                                                    "type": "string",
+                                                    "example": "HR. Bukhari"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Ayat or Hadist detail retrieved successfully."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Ayat atau Hadist tidak ditemukan"
+                    }
+                }
+            }
+        },
+        "/api/dalil/search/{query}": {
+            "get": {
+                "tags": [
+                    "Ayat & Hadist"
+                ],
+                "summary": "Cari ayat/hadist berdasarkan kata kunci",
+                "operationId": "7bf4bfc9944229d37f64c34c7e6e9f76",
+                "parameters": [
+                    {
+                        "name": "query",
+                        "in": "path",
+                        "description": "Kata kunci pencarian dalam teks dalil",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "iman"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Hasil pencarian ayat/hadist berhasil diambil",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 3
+                                                    },
+                                                    "content": {
+                                                        "type": "string",
+                                                        "example": "Kebersihan sebagian dari iman"
+                                                    },
+                                                    "sumber": {
+                                                        "type": "string",
+                                                        "example": "HR. Muslim"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Search results retrieved successfully."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Tidak ditemukan hasil pencarian"
+                    }
+                }
+            }
+        },
+        "/api/fase": {
+            "get": {
+                "tags": [
+                    "Fase"
+                ],
+                "summary": "Ambil semua data fase dan jumlah mapel",
+                "operationId": "7fb0cbedd7d6b86bf8620fed5073227f",
+                "responses": {
+                    "200": {
+                        "description": "Data fase dan mapel berhasil diambil"
+                    }
+                }
+            }
+        },
+        "/api/fase/{faseId}/mapel": {
+            "get": {
+                "tags": [
+                    "Mapel"
+                ],
+                "summary": "Ambil semua mapel berdasarkan ID fase",
+                "operationId": "82e7aafe8bdc8681a36ed2ea7e7824fc",
+                "parameters": [
+                    {
+                        "name": "faseId",
+                        "in": "path",
+                        "description": "ID Fase",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Data mapel berhasil diambil"
+                    }
+                }
+            }
+        },
+        "/api/fase/{faseId}/mapel/{mapelId}/metode": {
+            "get": {
+                "tags": [
+                    "Metode Pembelajaran"
+                ],
+                "summary": "Ambil metode pembelajaran berdasarkan fase dan mapel",
+                "operationId": "94bd0bb169d4818a0d68aa9a5dd5cba8",
+                "parameters": [
+                    {
+                        "name": "faseId",
+                        "in": "path",
+                        "description": "ID Fase",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "mapelId",
+                        "in": "path",
+                        "description": "ID Mapel",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Metode pembelajaran berhasil diambil"
+                    }
+                }
+            }
+        },
+        "/api/fase/{faseId}/mapel/{mapelId}/mp/{metode}": {
+            "get": {
+                "tags": [
+                    "Capaian Pembelajaran"
+                ],
+                "summary": "Ambil data CP berdasarkan fase, mapel, dan metode pembelajaran",
+                "operationId": "22ed6799b0362df62e95399c7c8c063d",
+                "parameters": [
+                    {
+                        "name": "faseId",
+                        "in": "path",
+                        "description": "ID Fase",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "mapelId",
+                        "in": "path",
+                        "description": "ID Mapel",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "metode",
+                        "in": "path",
+                        "description": "Metode Pembelajaran",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Data CP berhasil diambil"
+                    }
+                }
+            }
+        },
+        "/api/cp/{id}": {
+            "get": {
+                "tags": [
+                    "Capaian Pembelajaran"
+                ],
+                "summary": "Lihat detail CP berdasarkan ID",
+                "operationId": "4f9a199d3da3942b031fc7c8d8c8c4b0",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID CP",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Detail CP berhasil diambil"
+                    },
+                    "404": {
+                        "description": "CP tidak ditemukan"
+                    }
+                }
+            }
+        },
+        "/api/cp": {
+            "get": {
+                "tags": [
+                    "Capaian Pembelajaran"
+                ],
+                "summary": "Ambil semua data CP",
+                "operationId": "d799dd1b4eaf40b06af148c72e4e983d",
+                "responses": {
+                    "200": {
+                        "description": "Semua data CP berhasil diambil"
+                    }
+                }
+            }
+        },
+        "/api/kaidah/jenis-tema": {
+            "get": {
+                "tags": [
+                    "Kaidah"
+                ],
+                "summary": "Ambil semua jenis tema untuk kaidah",
+                "operationId": "3a8b9793b0196f51591321e28642c496",
+                "responses": {
+                    "200": {
+                        "description": "Daftar Jenis Tema berhasil diambil",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "nama_jenis": {
+                                                        "type": "string",
+                                                        "example": "Fiqih"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "List of Jenis Tema retrieved successfully."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/kaidah/tema": {
+            "get": {
+                "tags": [
+                    "Kaidah"
+                ],
+                "summary": "Ambil semua tema untuk kaidah",
+                "operationId": "9f879d945d42fe137f54b171e9ae483b",
+                "responses": {
+                    "200": {
+                        "description": "Daftar Tema berhasil diambil",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 2
+                                                    },
+                                                    "nama_tema": {
+                                                        "type": "string",
+                                                        "example": "Etika Lingkungan"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "List of Tema retrieved successfully."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Tema tidak ditemukan"
+                    }
+                }
+            }
+        },
+        "/api/kaidah/tema/{tema_id}/kaidah": {
+            "get": {
+                "tags": [
+                    "Kaidah"
+                ],
+                "summary": "Ambil semua kaidah berdasarkan tema ID",
+                "operationId": "9d41aeb7f80ccd8093ff33cd6ef13f5a",
+                "parameters": [
+                    {
+                        "name": "tema_id",
+                        "in": "path",
+                        "description": "ID Tema untuk kaidah",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 2
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Daftar Kaidah berhasil diambil",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 15
+                                                    },
+                                                    "judul": {
+                                                        "type": "string",
+                                                        "example": "Kaidah menjaga lingkungan"
+                                                    },
+                                                    "isi": {
+                                                        "type": "string",
+                                                        "example": "Menjaga kebersihan merupakan bagian dari iman."
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "List of Kaidah retrieved successfully."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Kaidah tidak ditemukan"
+                    }
+                }
+            }
+        },
+        "/api/media/jenis-tema": {
+            "get": {
+                "tags": [
+                    "Media"
+                ],
+                "summary": "Ambil semua Jenis Tema untuk media",
+                "operationId": "ec3d11e6c6053e230118ea5c28a0c1f9",
+                "responses": {
+                    "200": {
+                        "description": "Daftar Jenis Tema berhasil diambil",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "nama_jenis": {
+                                                        "type": "string",
+                                                        "example": "Akidah Akhlak"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "List of Jenis Tema retrieved successfully."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/media/jenis-tema/{jenis_tema_id}/tema": {
+            "get": {
+                "tags": [
+                    "Media"
+                ],
+                "summary": "Ambil semua Tema berdasarkan Jenis Tema ID",
+                "operationId": "b06f89b3f578357faecd8f434cd921c3",
+                "parameters": [
+                    {
+                        "name": "jenis_tema_id",
+                        "in": "path",
+                        "description": "ID Jenis Tema",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 2
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Daftar Tema berhasil diambil",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 3
+                                                    },
+                                                    "nama_tema": {
+                                                        "type": "string",
+                                                        "example": "Kebersihan Sebagian dari Iman"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "List of Tema retrieved successfully."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/media/tema/{tema_id}/video": {
+            "get": {
+                "tags": [
+                    "Media"
+                ],
+                "summary": "Ambil semua media (video) berdasarkan Tema ID",
+                "operationId": "e379371eb6efcd826abed836a79ba96a",
+                "parameters": [
+                    {
+                        "name": "tema_id",
+                        "in": "path",
+                        "description": "ID Tema",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 3
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Daftar Media berhasil diambil",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 5
+                                                    },
+                                                    "judul": {
+                                                        "type": "string",
+                                                        "example": "Menjaga Kebersihan"
+                                                    },
+                                                    "url": {
+                                                        "type": "string",
+                                                        "example": "https://youtube.com/embed/xxxx"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "List of Media retrieved successfully."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/media/{id}": {
+            "get": {
+                "tags": [
+                    "Media"
+                ],
+                "summary": "Ambil detail media berdasarkan ID",
+                "operationId": "e284861ed777bd38294a5430bca1b904",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID Media (Video)",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 10
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Detail Media berhasil diambil",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 10
+                                                },
+                                                "judul": {
+                                                    "type": "string",
+                                                    "example": "Video Pembelajaran Akhlak"
+                                                },
+                                                "url": {
+                                                    "type": "string",
+                                                    "example": "https://youtu.be/abcd1234"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Media detail retrieved successfully."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Media tidak ditemukan"
+                    }
+                }
+            }
+        },
+        "/api/refleksi": {
+            "get": {
+                "tags": [
+                    "Eko Refleksi"
+                ],
+                "summary": "Get list of refleksi menu",
+                "description": "Mengambil daftar menu utama Refleksi seperti Kuis, Tanya Jawab, dan Refleksi Harian.",
+                "operationId": "af4d32ed0e61dff3f9a4dfacf0b2f0f4",
+                "responses": {
+                    "200": {
+                        "description": "List of Refleksi options retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string",
+                                                "example": "Kuis"
+                                            }
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "List of Refleksi options retrieved successfully."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/refleksi/kuis": {
+            "get": {
+                "tags": [
+                    "Eko Refleksi"
+                ],
+                "summary": "Get list of kuis",
+                "description": "Mengambil daftar kuis yang tersedia dan jumlah hasil kuis yang tersimpan.",
+                "operationId": "135bd748b48551c61f7c0c0a56621880",
+                "responses": {
+                    "200": {
+                        "description": "Data Kuis retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "total_kuis": {
+                                            "type": "integer",
+                                            "example": 3
+                                        },
+                                        "total_hasil_kuis": {
+                                            "type": "integer",
+                                            "example": 10
+                                        },
+                                        "kuis": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "string",
+                                                        "example": "uuid-kuis"
+                                                    },
+                                                    "judul": {
+                                                        "type": "string",
+                                                        "example": "Kuis Lingkungan"
+                                                    },
+                                                    "deskripsi": {
+                                                        "type": "string",
+                                                        "example": "Tes pemahaman tentang lingkungan"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/refleksi/kuis/{id}/{device_id}": {
+            "get": {
+                "tags": [
+                    "Eko Refleksi"
+                ],
+                "summary": "Get detail of specific kuis for a device",
+                "description": "Mengambil detail kuis beserta status pengerjaan oleh device tertentu.",
+                "operationId": "c48a011f817b56446384a8f66b590def",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "device_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Kuis detail retrieved successfully."
+                    }
+                }
+            }
+        },
+        "/api/refleksi/pertanyaan/{kuis_id}": {
+            "get": {
+                "tags": [
+                    "Eko Refleksi"
+                ],
+                "summary": "Get next pertanyaan for a kuis",
+                "operationId": "c0023db007c79512228c23766594eb6d",
+                "parameters": [
+                    {
+                        "name": "kuis_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "offset",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "example": 0
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Pertanyaan berhasil diambil."
+                    }
+                }
+            }
+        },
+        "/api/refleksi/kuis/simpan": {
+            "post": {
+                "tags": [
+                    "Eko Refleksi"
+                ],
+                "summary": "Simpan hasil kuis",
+                "operationId": "3ead2290d2c9ef593f32544873876947",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "device_id",
+                                    "kuis_id",
+                                    "jawaban",
+                                    "waktu_pengerjaan"
+                                ],
+                                "properties": {
+                                    "device_id": {
+                                        "type": "string"
+                                    },
+                                    "kuis_id": {
+                                        "type": "string"
+                                    },
+                                    "jawaban": {
+                                        "type": "object"
+                                    },
+                                    "waktu_pengerjaan": {
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Hasil kuis berhasil disimpan."
+                    }
+                }
+            }
+        },
+        "/api/refleksi/harian": {
+            "get": {
+                "tags": [
+                    "Eko Refleksi"
+                ],
+                "summary": "Get list of refleksi harian",
+                "operationId": "1bc054530578e53881115986f8f057ba",
+                "responses": {
+                    "200": {
+                        "description": "List of Refleksi retrieved successfully."
+                    }
+                }
+            }
+        },
+        "/api/refleksi/harian/store": {
+            "post": {
+                "tags": [
+                    "Eko Refleksi"
+                ],
+                "summary": "Store new refleksi harian",
+                "operationId": "e4c308a01b4cd9bc292c6e6bf207213f",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "device_id",
+                                    "judul",
+                                    "refleksi",
+                                    "tanggal",
+                                    "deskripsi"
+                                ],
+                                "properties": {
+                                    "device_id": {
+                                        "type": "string"
+                                    },
+                                    "judul": {
+                                        "type": "string"
+                                    },
+                                    "refleksi": {
+                                        "type": "string"
+                                    },
+                                    "tanggal": {
+                                        "type": "string",
+                                        "format": "date"
+                                    },
+                                    "deskripsi": {
+                                        "type": "string"
+                                    },
+                                    "gambar": {
+                                        "type": "file"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Refleksi created successfully."
+                    }
+                }
+            }
+        },
+        "/api/refleksi/chat/{deviceId}": {
+            "get": {
+                "tags": [
+                    "Eko Refleksi"
+                ],
+                "summary": "Get chat history by device ID",
+                "operationId": "4d3d526591e70bb4b08dc9e17367258b",
+                "parameters": [
+                    {
+                        "name": "deviceId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Chat history retrieved successfully."
+                    }
+                }
+            }
+        },
+        "/api/refleksi/chat/send": {
+            "post": {
+                "tags": [
+                    "Eko Refleksi"
+                ],
+                "summary": "Send a message to Groq chatbot",
+                "operationId": "82e3ccee49bf715730466841bb471e01",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "device_id",
+                                    "message"
+                                ],
+                                "properties": {
+                                    "device_id": {
+                                        "type": "string"
+                                    },
+                                    "message": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Message processed successfully."
+                    }
+                }
+            }
+        },
+        "/api/home": {
+            "get": {
+                "tags": [
+                    "Home"
+                ],
+                "summary": "Menampilkan data dashboard utama",
+                "operationId": "d65ef76cbb32ae304c5a24c525b95adb",
+                "parameters": [
+                    {
+                        "name": "Device-ID",
+                        "in": "header",
+                        "description": "ID perangkat pengguna (opsional)",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "example": "d6f12b6e-0ad3-4b54-90d2-90e4123c1ef2"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Dashboard data retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "stats": {
+                                                    "properties": {
+                                                        "total_tema": {
+                                                            "type": "integer",
+                                                            "example": 12
+                                                        },
+                                                        "total_kuis": {
+                                                            "type": "integer",
+                                                            "example": 4
+                                                        },
+                                                        "total_video": {
+                                                            "type": "integer",
+                                                            "example": 9
+                                                        },
+                                                        "total_cp": {
+                                                            "type": "integer",
+                                                            "example": 6
+                                                        },
+                                                        "total_kaidah": {
+                                                            "type": "integer",
+                                                            "example": 5
+                                                        },
+                                                        "total_refleksi": {
+                                                            "type": "integer",
+                                                            "example": 8
+                                                        },
+                                                        "random_video": {
+                                                            "type": "object"
+                                                        },
+                                                        "device": {
+                                                            "type": "object"
+                                                        },
+                                                        "kuis_selesai": {
+                                                            "type": "integer",
+                                                            "example": 2
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                },
+                                                "featured_tema": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "object"
+                                                    }
+                                                },
+                                                "active_kuis": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "object"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/search": {
+            "get": {
+                "tags": [
+                    "Home"
+                ],
+                "summary": "Mencari data tema, kuis, dan video berdasarkan keyword",
+                "operationId": "7e0945ccea0cb30ffa6973d2d4de2c1d",
+                "parameters": [
+                    {
+                        "name": "q",
+                        "in": "query",
+                        "description": "Kata kunci pencarian",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "shalat"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Search results retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "tema": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "object"
+                                                    }
+                                                },
+                                                "kuis": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "object"
+                                                    }
+                                                },
+                                                "video": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "object"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Device",
+            "description": "Manajemen data Device (perangkat pengguna)"
+        },
+        {
+            "name": "Ayat & Hadist",
+            "description": "API untuk mengambil data Jenis Tema, Tema, dan Ayat/Hadist"
+        },
+        {
+            "name": "Kaidah",
+            "description": "API untuk mengambil data Jenis Tema, Tema, dan Kaidah"
+        },
+        {
+            "name": "Media",
+            "description": "API untuk mengambil data Jenis Tema, Tema, dan Media (Video)"
+        },
+        {
+            "name": "Home",
+            "description": "API untuk halaman dashboard dan pencarian di aplikasi EKO"
+        },
+        {
+            "name": "Fase",
+            "description": "Fase"
+        },
+        {
+            "name": "Mapel",
+            "description": "Mapel"
+        },
+        {
+            "name": "Metode Pembelajaran",
+            "description": "Metode Pembelajaran"
+        },
+        {
+            "name": "Capaian Pembelajaran",
+            "description": "Capaian Pembelajaran"
+        },
+        {
+            "name": "Eko Refleksi",
+            "description": "Eko Refleksi"
+        }
+    ]
+}

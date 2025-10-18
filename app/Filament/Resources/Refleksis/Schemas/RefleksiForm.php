@@ -1,6 +1,7 @@
 <?php
 namespace App\Filament\Resources\Refleksis\Schemas;
 
+use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
@@ -21,6 +22,9 @@ class RefleksiForm
                     ->disk('public')
                     ->visibility('public')
                     ->maxSize(2048),
+                DatePicker::make('tanggal')
+                    ->required()
+                    ->default(now()),
                 Textarea::make('judul')
                     ->required()
                     ->columnSpanFull(),

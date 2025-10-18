@@ -1,65 +1,62 @@
 <?php
 
-use App\Http\Controllers\Api\AuthController;
-use App\Http\Controllers\Api\AyatController;
-use App\Http\Controllers\Api\ChatController;
-use App\Http\Controllers\Api\CpController;
 use App\Http\Controllers\Api\DeviceController;
-use App\Http\Controllers\Api\FaseController;
-use App\Http\Controllers\Api\HadistController;
-use App\Http\Controllers\Api\HasilKuisController;
+use App\Http\Controllers\Api\EkoAyatHadistController;
+use App\Http\Controllers\Api\EkoCpController;
+use App\Http\Controllers\Api\EkoKaidahController;
+use App\Http\Controllers\Api\EkoMediaController;
+use App\Http\Controllers\Api\EkoRefleksiController;
 use App\Http\Controllers\Api\HomeController;
-use App\Http\Controllers\Api\JenisTemaController;
-use App\Http\Controllers\Api\KaidahController;
-use App\Http\Controllers\Api\KuisController;
-use App\Http\Controllers\Api\MapelController;
-use App\Http\Controllers\Api\PertanyaanController;
-use App\Http\Controllers\Api\RefleksiController;
-use App\Http\Controllers\Api\TemaController;
 use Illuminate\Support\Facades\Route;
-
-Route::get('/hello', function () {
-    return response()->json([
-        'message' => 'Hello, World!',
-    ]);
-});
-
-Route::post('/register', [AuthController::class, 'register']);
-Route::post('/login', [AuthController::class, 'login']);
-
-// Protected routes
-Route::middleware('auth:sanctum')->group(function () {
-    Route::post('/logout', [AuthController::class, 'logout']);
-    Route::get('/user', [AuthController::class, 'user']);
-});
-
-Route::post('/chat/send', [ChatController::class, 'sendMessage']);
-Route::get('/chat/{id}', [ChatController::class, 'chat']);
 
 Route::get('/home', [HomeController::class, 'index']);
 
 Route::post('/device/create', [DeviceController::class, 'create']);
-
 Route::get('/device/{id}', [DeviceController::class, 'show']);
 
-Route::resource('/fase', FaseController::class);
+//Eko CP
 
-Route::get('/fase', [FaseController::class, 'index']);
-Route::get('/fase/{id}', [FaseController::class, 'show']);
-Route::get('/fase/{faseId}/mapel/{mapelId}/cp', [CpController::class, 'faseMapel']);
+Route::get('/fase', [EkoCpController::class, 'fase']);
+Route::get('/fase/{faseId}/mapel', [EkoCpController::class, 'mapel']);
+Route::get('/fase/{faseId}/mapel/{mapelId}/metode', [EkoCpController::class, 'metodePembelajaran']);
+Route::get('/fase/{faseId}/mapel/{mapelId}/metode/{metode}', [EkoCpController::class, 'cpByFaseMapelMP']);
+Route::get('/cp', [EkoCpController::class, 'allCp']);
+Route::get('/cp/{id}', [EkoCpController::class, 'showCp']);
 
-Route::resource('/tema', TemaController::class);
-Route::resource('/refleksi', RefleksiController::class);
-Route::resource('/cp', CpController::class);
-Route::resource('/mapel', MapelController::class);
-Route::resource('/jenis-tema', JenisTemaController::class);
-Route::resource('/kaidah', KaidahController::class);
-Route::resource('/hadist', HadistController::class);
-Route::resource('/ayat', AyatController::class);
+//Eko Media
 
-Route::resource('/pertanyaan', PertanyaanController::class);
-Route::resource('/hasil-kuis', HasilKuisController::class);
+Route::get('/jenis_tema', [EkoMediaController::class, 'jenisTema']);
+Route::get('/jenis_tema/{jenisTemaId}', [EkoMediaController::class, 'tema']);
+Route::get('/tema/{temaId}/media', [EkoMediaController::class, 'media']);
+Route::get('/media/{id}', [EkoMediaController::class, 'showMedia']);
 
-Route::get('/kuis', [KuisController::class, 'index']);               // Daftar kuis aktif
-Route::get('/kuis/{id}', [KuisController::class, 'show']);           // Detail kuis
-Route::post('/kuis/{id}/submit', [KuisController::class, 'submit']); // Kirim jawaban
+//Eko Kaidah
+
+Route::get('/kaidah/{temaId}', [EkoKaidahController::class, 'kaidah']);
+
+//EKo Ayat Hadist
+
+Route::get('/ayat_hadist/{temaId}', [EkoAyatHadistController::class, 'ayatHadist']);
+Route::get('/ayat_hadist/{id}', [EkoAyatHadistController::class, 'showAyatHadist']);
+Route::get('/ayat_hadist/search/{query}', [EkoAyatHadistController::class, 'searchAyatHadist']);
+
+//Eko Refleksi
+
+Route::get('/refleksi', [EkoRefleksiController::class, 'index']);
+
+//kuis
+
+Route::get('/kuis', [EkoRefleksiController::class, 'kuis']);
+Route::get('/kuis/{id}/device/{deviceId}', [EkoRefleksiController::class, 'kuisDetail']);
+Route::get('/kuis/{id}/pertanyaan', [EkoRefleksiController::class, 'pertanyaan']);
+Route::post('/kuis', [EkoRefleksiController::class, 'simpanHasil']);
+
+//refleksi harian
+
+Route::get('/refleksi_harian', [EkoRefleksiController::class, 'refleksiHarian']);
+Route::post('/refleksi_harian', [EkoRefleksiController::class, 'storeRefleksi']);
+
+//tanya jawab
+
+Route::get('/tanya_jawab/{deviceId}', [EkoRefleksiController::class, 'chat']);
+Route::post('/tanya_jawab/send', [EkoRefleksiController::class, 'sendMessage']);
