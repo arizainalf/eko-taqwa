@@ -37,7 +37,7 @@ class EkoKaidahController extends Controller
      */
     public function jenisTema()
     {
-        $jenisTema = JenisTema::all();
+        $jenisTema = JenisTema::withCount('tema')->get();
         return $this->successResponse($jenisTema, 'List of Jenis Tema retrieved successfully.');
     }
 
@@ -64,9 +64,9 @@ class EkoKaidahController extends Controller
      *     )
      * )
      */
-    public function tema()
+    public function tema($jenisTemaId)
     {
-        $tema = Tema::all();
+        $tema = Tema::where('jenis_tema_id', $jenisTemaId)->withCount('kaidah')->get();
 
         if (! $tema) {
             return $this->errorResponse('', 'Tema not found', 404);

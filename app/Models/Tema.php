@@ -39,16 +39,8 @@ class Tema extends Model
     {
         return $this->hasMany(Kaidah::class, 'tema_id');
     }
-    public function ayat()
+    public function dalil()
     {
-        return $this->hasMany(Ayat::class, 'tema_id');
-    }
-    public function hadist()
-    {
-        return $this->hasMany(Hadist::class, 'tema_id');
-    }
-    public function kitab()
-    {
-        return $this->hasMany(Kitab::class, 'tema_id');
+        return $this->hasMany(Dalil::class, 'tema_id');
     }
 }

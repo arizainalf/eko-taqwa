@@ -1,18 +1,18 @@
 <?php
 namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Controller;
 use App\Models\Chat;
-use App\Models\Kuis;
 use App\Models\Device;
-use App\Models\Refleksi;
 use App\Models\HasilKuis;
+use App\Models\Kuis;
 use App\Models\Pertanyaan;
-use Illuminate\Support\Str;
+use App\Models\Refleksi;
 use App\Traits\ApiResponder;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 
 class EkoRefleksiController extends Controller
 {
@@ -63,7 +63,7 @@ class EkoRefleksiController extends Controller
      */
     public function kuis()
     {
-        $kuis = Kuis::select('id', 'judul', 'deskripsi')->get();
+        $kuis      = Kuis::select('id', 'judul', 'deskripsi')->withCount('pertanyaan')->get();
         $hasilKuis = HasilKuis::count();
 
         $data = [
@@ -115,7 +115,7 @@ class EkoRefleksiController extends Controller
     public function pertanyaan($kuis_id, Request $request)
     {
         $offset = (int) $request->input('offset', 0);
-        $total = Pertanyaan::where('kuis_id', $kuis_id)->count();
+        $total  = Pertanyaan::where('kuis_id', $kuis_id)->count();
 
         $pertanyaan = Pertanyaan::with('opsipertanyaan')
             ->where('kuis_id', $kuis_id)
@@ -123,7 +123,7 @@ class EkoRefleksiController extends Controller
             ->take(1)
             ->first();
 
-        if (!$pertanyaan) {
+        if (! $pertanyaan) {
             return $this->errorResponse('Tidak ada pertanyaan lagi.', 404);
         }
 
@@ -252,7 +252,7 @@ class EkoRefleksiController extends Controller
         }
 
         $validated['id'] = Str::uuid();
-        $refleksi = Refleksi::create($validated);
+        $refleksi        = Refleksi::create($validated);
 
         return $this->successResponse($refleksi, 'Refleksi created successfully.');
     }
@@ -271,7 +271,7 @@ class EkoRefleksiController extends Controller
         try {
             $device = Device::where('device_id', $deviceId)->first();
 
-            if (!$device) {
+            if (! $device) {
                 return $this->errorResponse([], 'Device not found', 404);
             }
 
@@ -307,7 +307,7 @@ class EkoRefleksiController extends Controller
 
         $device = Device::where('device_id', $request->device_id)->first();
 
-        if (!$device) {
+        if (! $device) {
             return $this->errorResponse([], 'Device not found', 404);
         }
 
@@ -450,4 +450,3 @@ class EkoRefleksiController extends Controller
         }
     }
 }
-

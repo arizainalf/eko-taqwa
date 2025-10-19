@@ -70,7 +70,7 @@ class EkoMediaController extends Controller
      */
     public function tema($jenisTemaId)
     {
-        $tema = Tema::where('jenis_tema_id', $jenisTemaId)->get();
+        $tema = Tema::where('jenis_tema_id', $jenisTemaId)->withCount('video')->get();
         return $this->successResponse($tema, 'List of Tema retrieved successfully.');
     }
 
