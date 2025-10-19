@@ -32,12 +32,12 @@ Route::get('/media/{id}', [EkoMediaController::class, 'showMedia']);
 
 //Eko Kaidah
 
-Route::get('/tema/{temaId}/kaidah', [EkoKaidahController::class, 'tema']);
+Route::get('/jenis_tema/{temaId}/kaidah', [EkoKaidahController::class, 'tema']);
 Route::get('/kaidah/{temaId}', [EkoKaidahController::class, 'kaidah']);
 
 //EKo Ayat Hadist
 
-Route::get('/tema/{temaId}/ayat_hadist', [EkoAyatHadistController::class, 'tema']);
+Route::get('/jenis_tema/{temaId}/ayat_hadist', [EkoAyatHadistController::class, 'tema']);
 Route::get('/ayat_hadist/{temaId}', [EkoAyatHadistController::class, 'ayatHadist']);
 Route::get('/ayat_hadist/{id}', [EkoAyatHadistController::class, 'showAyatHadist']);
 Route::get('/ayat_hadist/search/{query}', [EkoAyatHadistController::class, 'searchAyatHadist']);
