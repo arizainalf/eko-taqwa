@@ -72,10 +72,12 @@ class EkoCpController extends Controller
         $mapel = Mapel::withCount(['cp' => function ($query) use ($faseId) {
             $query->where('fase_id', $faseId);
         }])->get();
+        $cp = Cp::where('fase_id', $faseId)->count();
         $data = [
             'total_mapel' => $mapel->count(),
             'mapel'       => $mapel,
             'fase_id'     => $faseId,
+            'total_cp'=> $cp,
         ];
 
         return $this->successResponse($data, 'Mapel data retrieved successfully.');
