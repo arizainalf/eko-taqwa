@@ -38,7 +38,7 @@ class EkoMediaController extends Controller
      */
     public function jenisTema()
     {
-        $jenisTema = JenisTema::all();
+        $jenisTema = JenisTema::withCount('tema')->get();
         return $this->successResponse($jenisTema, 'List of Jenis Tema retrieved successfully.');
     }
 
