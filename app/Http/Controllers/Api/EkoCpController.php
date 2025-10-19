@@ -114,6 +114,8 @@ class EkoCpController extends Controller
         $metode = Cp::query()
             ->select('metode_pembelajaran', DB::raw('COUNT(*) as total'))
             ->groupBy('metode_pembelajaran')
+            ->where('fase_id', $faseId)
+            ->where('mapel_id', $mapelId)
             ->get();
         $data = [
             'fase_id'  => $faseId,
