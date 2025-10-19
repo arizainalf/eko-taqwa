@@ -6,6 +6,7 @@ use App\Models\Cp;
 use App\Models\Fase;
 use App\Models\Mapel;
 use App\Traits\ApiResponder;
+use Illuminate\Support\Facades\DB;
 
 /**
  * @OA\Info(
@@ -72,12 +73,12 @@ class EkoCpController extends Controller
         $mapel = Mapel::withCount(['cp' => function ($query) use ($faseId) {
             $query->where('fase_id', $faseId);
         }])->get();
-        $cp = Cp::where('fase_id', $faseId)->count();
+        $cp   = Cp::where('fase_id', $faseId)->count();
         $data = [
             'total_mapel' => $mapel->count(),
             'mapel'       => $mapel,
             'fase_id'     => $faseId,
-            'total_cp'=> $cp,
+            'total_cp'    => $cp,
         ];
 
         return $this->successResponse($data, 'Mapel data retrieved successfully.');
@@ -110,15 +111,14 @@ class EkoCpController extends Controller
      */
     public function metodePembelajaran($faseId, $mapelId)
     {
-        $metode = Cp::distinct()->pluck('metode_pembelajaran');
-        $cp     = Cp::where('fase_id', $faseId)
-            ->where('mapel_id', $mapelId)
-            ->count();
+        $metode = Cp::query()
+            ->select('metode_pembelajaran', DB::raw('COUNT(*) as total'))
+            ->groupBy('metode_pembelajaran')
+            ->get();
         $data = [
             'fase_id'  => $faseId,
             'mapel_id' => $mapelId,
             'metode'   => $metode,
-            'total_cp' => $cp,
         ];
 
         return $this->successResponse($data, 'MP data retrieved successfully');
