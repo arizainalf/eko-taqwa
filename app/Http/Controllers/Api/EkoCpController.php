@@ -38,11 +38,12 @@ class EkoCpController extends Controller
     {
         $fase  = Fase::all();
         $mapel = Mapel::count();
+        $cp    = Cp::count();
 
         $data = [
-            'total_fase'  => $fase->count(),
             'total_mapel' => $mapel,
             'fase'        => $fase,
+            'total_cps'   => $cp,
         ];
 
         return $this->successResponse($data, 'Fase and Mapel data retrieved successfully.');
@@ -68,8 +69,10 @@ class EkoCpController extends Controller
      */
     public function mapel($faseId)
     {
-        $mapel = Mapel::all();
-        $data  = [
+        $mapel = Mapel::withCount(['cp' => function ($query) use ($faseId) {
+            $query->where('fase_id', $faseId);
+        }])->get();
+        $data = [
             'total_mapel' => $mapel->count(),
             'mapel'       => $mapel,
             'fase_id'     => $faseId,
@@ -106,10 +109,14 @@ class EkoCpController extends Controller
     public function metodePembelajaran($faseId, $mapelId)
     {
         $metode = Cp::distinct()->pluck('metode_pembelajaran');
-        $data   = [
+        $cp     = Cp::where('fase_id', $faseId)
+            ->where('mapel_id', $mapelId)
+            ->count();
+        $data = [
             'fase_id'  => $faseId,
             'mapel_id' => $mapelId,
             'metode'   => $metode,
+            'total_cp' => $cp,
         ];
 
         return $this->successResponse($data, 'MP data retrieved successfully');
