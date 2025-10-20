@@ -56,6 +56,7 @@ Route::post('/kuis', [EkoRefleksiController::class, 'simpanHasil']);
 //refleksi harian
 
 Route::get('/refleksi_harian', [EkoRefleksiController::class, 'refleksiHarian']);
+Route::get('/refleksi_harian/{id}', [EkoRefleksiController::class, 'refleksiHarian']);
 Route::post('/refleksi_harian', [EkoRefleksiController::class, 'storeRefleksi']);
 
 //tanya jawab

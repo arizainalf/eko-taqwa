@@ -214,7 +214,14 @@ class EkoRefleksiController extends Controller
      */
     public function refleksiHarian()
     {
-        $refleksi = Refleksi::all();
+        $refleksi = Refleksi::with('device')
+            ->latest()
+            ->get();
+        return $this->successResponse($refleksi, 'List of Refleksi retrieved successfully.');
+    }
+    public function showRefleksiHarian($id)
+    {
+        $refleksi = Refleksi::find($id);
         return $this->successResponse($refleksi, 'List of Refleksi retrieved successfully.');
     }
 

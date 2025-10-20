@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
@@ -99,7 +98,7 @@ class DeviceController extends Controller
     {
         $device = Device::where('device_id', $id)->first();
 
-        if (!$device) {
+        if (! $device) {
             return $this->errorResponse('Device not found', 404);
         }
 
