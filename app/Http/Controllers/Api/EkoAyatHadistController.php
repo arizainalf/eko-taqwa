@@ -69,7 +69,7 @@ class EkoAyatHadistController extends Controller
             'jenistema' => $jenistema,
             'tema'      => $tema,
         ];
-        return $this->successResponse($tema, 'List of Tema retrieved successfully.');
+        return $this->successResponse($data, 'List of Tema retrieved successfully.');
     }
 
     /**
