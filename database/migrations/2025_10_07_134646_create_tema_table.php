@@ -11,7 +11,7 @@ return new class extends Migration
 
         Schema::create('tema', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignUuid('jenis_tema_id')->constrained('jenis_tema');
+            $table->foreignUuid('jenis_tema_id')->constrained('jenis_tema')->onDelete('cascade')->onUpdate('cascade');
             $table->string('nama');
             $table->text('deskripsi')->nullable();
             $table->timestamps();

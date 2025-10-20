@@ -11,7 +11,7 @@ return new class extends Migration
 
         Schema::create('pertanyaan', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignUuid('kuis_id')->constrained('kuis');
+            $table->foreignUuid('kuis_id')->constrained('kuis')->onDelete('cascade')->onUpdate('cascade');
             $table->text('teks_pertanyaan');
             $table->integer('poin')->default(1);
             $table->timestamps();

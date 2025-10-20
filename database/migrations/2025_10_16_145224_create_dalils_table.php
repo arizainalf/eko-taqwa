@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('dalil', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignUuid('tema_id')->constrained('tema');
+            $table->foreignUuid('tema_id')->constrained('tema')->onDelete('cascade')->onUpdate('cascade');
             $table->enum('jenis', ['ayat', 'hadist']);
             $table->text('teks_asli');
-            $table->text('terjemahan');
+            $table->text('terjemahan')->nullable();
             $table->text('sumber')->nullable();
             $table->text('penjelasan')->nullable();
             $table->timestamps();

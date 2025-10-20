@@ -11,7 +11,7 @@ return new class extends Migration
 
         Schema::create('chat', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignUuid('device_id')->constrained('device');
+            $table->foreignUuid('device_id')->constrained('device')->onDelete('cascade')->onUpdate('cascade');
             $table->text('pesan');
             $table->text('jawaban')->nullable();
             $table->timestamps();

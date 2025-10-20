@@ -11,8 +11,8 @@ return new class extends Migration
 
         Schema::create('cp', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignUuid('fase_id')->constrained('fase');
-            $table->foreignUuid('mapel_id')->constrained('mapel');
+            $table->foreignUuid('fase_id')->constrained('fase')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignUuid('mapel_id')->constrained('mapel')->onDelete('cascade')->onUpdate('cascade');
             $table->enum('metode_pembelajaran', ['rumah', 'sekolah'])->default('sekolah');
             $table->string('nama');
             $table->text('deskripsi');

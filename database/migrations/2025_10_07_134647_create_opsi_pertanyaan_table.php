@@ -11,7 +11,7 @@ return new class extends Migration
 
         Schema::create('opsi_pertanyaan', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignUuid('pertanyaan_id')->constrained('pertanyaan');
+            $table->foreignUuid('pertanyaan_id')->constrained('pertanyaan')->onDelete('cascade')->onUpdate('cascade');
             $table->text('jawaban');
             $table->boolean('benar')->default(false);
             $table->timestamps();

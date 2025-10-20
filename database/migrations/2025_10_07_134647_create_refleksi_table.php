@@ -11,7 +11,7 @@ return new class extends Migration
 
         Schema::create('refleksi', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignUuid('device_id')->constrained('device');
+            $table->foreignUuid('device_id')->constrained('device')->onDelete('cascade')->onUpdate('cascade');
             $table->string('gambar')->nullable();
             $table->text('judul');
             $table->text('deskripsi')->nullable();
