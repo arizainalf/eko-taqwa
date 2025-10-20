@@ -75,14 +75,16 @@ class EkoMediaController extends Controller
      */
     public function tema($jenisTemaId)
     {
-        $tema      = Tema::where('jenis_tema_id', $jenisTemaId)->withCount('video')->get();
-        $jenistema = JenisTema::find($jenisTemaId);
-        $media     = Video::count();
-        $data      = [
+        $tema       = Tema::where('jenis_tema_id', $jenisTemaId)->withCount('video')->get();
+        $jenistema  = JenisTema::find($jenisTemaId);
+        $mediaCount = Video::whereHas('tema', function ($query) use ($jenisTemaId) {
+            $query->where('jenis_tema_id', $jenisTemaId);
+        })->count();
+        $data = [
             'jenis_tema_id' => $jenisTemaId,
             'tema'          => $tema,
             'jenistema'     => $jenistema,
-            'video_count'   => $media,
+            'video_count'   => $mediaCount,
         ];
         return $this->successResponse($data, 'List of Tema retrieved successfully.');
     }
