@@ -80,7 +80,7 @@ class EkoKaidahController extends Controller
             'jenistema' => $jenistema,
         ];
 
-        return $this->successResponse($tema, 'List of Tema retrieved successfully.');
+        return $this->successResponse($data, 'List of Tema retrieved successfully.');
     }
 
     /**
