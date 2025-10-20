@@ -103,7 +103,7 @@ class EkoMediaController extends Controller
      */
     public function media($temaId)
     {
-        $media = Video::where('tema_id', $temaId)->get();
+        $media = Video::with('tema')->where('tema_id', $temaId)->get();
         return $this->successResponse($media, 'List of Media retrieved successfully.');
     }
 
