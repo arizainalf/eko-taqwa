@@ -74,11 +74,12 @@ class EkoCpController extends Controller
             $query->where('fase_id', $faseId);
         }])->get();
         $cp   = Cp::where('fase_id', $faseId)->count();
+        $fase = Fase::find($faseId);
         $data = [
             'total_mapel' => $mapel->count(),
             'mapel'       => $mapel,
-            'fase_id'     => $faseId,
             'total_cp'    => $cp,
+            'fase'        => $fase,
         ];
 
         return $this->successResponse($data, 'Mapel data retrieved successfully.');
