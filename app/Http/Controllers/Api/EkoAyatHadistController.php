@@ -102,7 +102,12 @@ class EkoAyatHadistController extends Controller
     public function ayatHadist($tema_id)
     {
         $ayatHadist = Dalil::where('tema_id', $tema_id)->get();
-        return $this->successResponse($ayatHadist, 'List of Ayat and Hadist retrieved successfully.');
+        $tema       = Tema::find($tema_id);
+        $data       = [
+            'dalil' => $ayatHadist,
+            'tema'  => $tema,
+        ];
+        return $this->successResponse($data, 'List message: of Ayat and Hadist retrieved successfully.');
     }
 
     /**
