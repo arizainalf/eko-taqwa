@@ -36,7 +36,12 @@ class EkoRefleksiController extends Controller
      */
     public function index(Request $request)
     {
-        $data = ['Kuis', 'Tanya Jawab', 'Refleksi Harian'];
+        $data = [
+            'kuis'     => Kuis::count(),
+            'chat'     => Chat::distinct()->count('device_id'),
+            'refleksi' => Refleksi::count(),
+        ];
+
         return $this->successResponse($data, 'List of Refleksi options retrieved successfully.');
     }
 
