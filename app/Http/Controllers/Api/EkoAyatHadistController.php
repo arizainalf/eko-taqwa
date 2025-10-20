@@ -63,7 +63,12 @@ class EkoAyatHadistController extends Controller
      */
     public function tema($jenisTemaId)
     {
-        $tema = Tema::where('jenis_tema_id', $jenisTemaId)->withCount('dalil')->get();
+        $tema      = Tema::where('jenis_tema_id', $jenisTemaId)->withCount('dalil')->get();
+        $jenistema = JenisTema::find($jenisTemaId);
+        $data      = [
+            'jenistema' => $jenistema,
+            'tema'      => $tema,
+        ];
         return $this->successResponse($tema, 'List of Tema retrieved successfully.');
     }
 
