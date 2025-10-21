@@ -93,10 +93,11 @@ class EkoRefleksiController extends Controller
      */
     public function kuisDetail($id, $device_id)
     {
-        $kuis = Kuis::find($id);
+        $kuis   = Kuis::find($id);
+        $device = Device::where('device_id', $device_id)->first();
 
         $done = HasilKuis::where('kuis_id', $id)
-            ->where('device_id', $device_id)->get();
+            ->where('device_id', $device->id)->get();
 
         $data = [
             'kuis'         => $kuis,
