@@ -59,10 +59,12 @@ class DeviceController extends Controller
             'name'      => $request->name,
         ]);
 
-        return response()->json([
-            'data'    => $device,
-            'message' => 'Device created successfully',
-        ]);
+        $data = [
+            'device' => $device,
+        ];
+
+        return $this->successResponse($data, 'Device created successfully.');
+
     }
 
     /**
