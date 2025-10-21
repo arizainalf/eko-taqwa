@@ -186,7 +186,7 @@ class EkoRefleksiController extends Controller
 
         $benar = 0;
         foreach ($pertanyaanList as $p) {
-            $opsiBenar = $p->opsi()->where('benar', true)->first();
+            $opsiBenar = $p->opsipertanyaan()->where('benar', true)->first();
             if (isset($validated['jawaban'][$p->id]) &&
                 $validated['jawaban'][$p->id] == $opsiBenar->id) {
                 $benar++;
