@@ -178,6 +178,10 @@ class EkoRefleksiController extends Controller
             'waktu_pengerjaan' => 'required|integer',
         ]);
 
+        $device = Device::where('device_id', $validated['device_id'])->first();
+
+        $validated['device_id'] = $device->id;
+
         $pertanyaanList = Pertanyaan::where('kuis_id', $validated['kuis_id'])->get();
 
         $benar = 0;
@@ -202,6 +206,11 @@ class EkoRefleksiController extends Controller
         ]);
 
         return $this->successResponse($hasil, 'Hasil kuis berhasil disimpan.');
+    }
+
+    public function hasilKuis($id)
+    {
+        $hasilKuis = HasilKuis::find($id);
     }
 
     /**
