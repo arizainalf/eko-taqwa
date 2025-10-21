@@ -254,7 +254,6 @@ class EkoRefleksiController extends Controller
             'device_id' => 'required|uuid',
             'gambar'    => 'nullable|file|mimes:jpg,jpeg,png|max:2048',
             'judul'     => 'required|string',
-            'refleksi'  => 'required|string',
             'tanggal'   => 'required|date',
             'deskripsi' => 'required|string',
         ]);
