@@ -172,7 +172,7 @@ class EkoRefleksiController extends Controller
     public function simpanHasil(Request $request)
     {
         $validated = $request->validate([
-            'device_id'        => 'required|uuid',
+            'device_id'        => 'required',
             'kuis_id'          => 'required|uuid',
             'jawaban'          => 'required|array',
             'waktu_pengerjaan' => 'required|integer',
