@@ -250,13 +250,19 @@ class EkoRefleksiController extends Controller
      */
     public function storeRefleksi(Request $request)
     {
+        logger('Request Data:', $request->all());
+        logger('Files:', $request->file() ? ['has_file' => true] : ['has_file' => false]);
         $validated = $request->validate([
-            'device_id' => 'required|uuid',
+            'device_id' => 'required',
             'gambar'    => 'nullable|file|mimes:jpg,jpeg,png|max:2048',
             'judul'     => 'required|string',
             'tanggal'   => 'required|date',
             'deskripsi' => 'required|string',
         ]);
+
+        $device = Device::where('device_id', $validated['device_id'])->first();
+
+        $validated['device_id'] = $device->id;
 
         if ($request->hasFile('gambar')) {
             $validated['gambar'] = $request->file('gambar')->store('refleksi', 'public');
