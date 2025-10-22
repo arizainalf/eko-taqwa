@@ -54,16 +54,24 @@ class DeviceController extends Controller
             'name'      => 'required|string|max:255|unique:device',
         ]);
 
-        $device = Device::create([
-            'device_id' => $request->device_id,
-            'name'      => $request->name,
-        ]);
+        $device = Device::where('device_id', $request->device_id)->first();
+        if (! $device) {
 
-        $data = [
-            'device' => $device,
-        ];
+            $device = Device::create([
+                'device_id' => $request->device_id,
+                'name'      => $request->name,
+            ]);
 
-        return $this->successResponse($data, 'Device created successfully.');
+            $data = [
+                'device' => $device,
+            ];
+
+            return $this->successResponse($data, 'Device created successfully.');
+        } else {
+            $device->name = $request->name;
+            $device->save();
+            return $this->errorResponse($device, 'Device has been created before.');
+        }
 
     }
 
