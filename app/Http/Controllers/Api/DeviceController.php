@@ -74,7 +74,8 @@ class DeviceController extends Controller
             $data = [
                 'device' => $device,
             ];
-            return $this->errorResponse($data, 'Device has been created before.');
+
+            return $this->successResponse($data, 'Devidata: ce has been created before.');
         }
 
     }
