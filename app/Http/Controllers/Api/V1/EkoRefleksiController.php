@@ -98,11 +98,13 @@ class EkoRefleksiController extends Controller
         $device = Device::where('device_id', $device_id)->first();
 
         $done = HasilKuis::where('kuis_id', $id)
-            ->where('device_id', $device->id)->get();
+            ->where('device_id', $device->id)->orderBy('created_at', 'DESC')
+            ->first();
+        $done_count = HasilKuis::count();
 
         $data = [
             'kuis'         => $kuis,
-            'diselesaikan' => $done->count(),
+            'diselesaikan' => $done_count(),
             'hasil_kuis'   => $done,
         ];
 
