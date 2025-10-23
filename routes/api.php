@@ -27,7 +27,7 @@ Route::prefix('v1')->group(function () {
         Route::get('/{id}', [EkoCpController::class, 'showCp']);
     });
 
-    Route::prefix(prefix: 'fase')->group(function () {
+    Route::prefix('fase')->group(function () {
         Route::get('/', [EkoCpController::class, 'fase']);
         Route::get('/{faseId}/mapel', [EkoCpController::class, 'mapel']);
         Route::get('/{faseId}/mapel/{mapelId}/metode', [EkoCpController::class, 'metodePembelajaran']);
