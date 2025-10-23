@@ -118,10 +118,12 @@ class EkoCpController extends Controller
             ->where('fase_id', $faseId)
             ->where('mapel_id', $mapelId)
             ->get();
-        $data = [
+        $mapel = Mapel::find($mapelId);
+        $data  = [
             'fase_id'  => $faseId,
             'mapel_id' => $mapelId,
             'metode'   => $metode,
+            'mapel'    => $mapel,
         ];
 
         return $this->successResponse($data, 'MP data retrieved successfully');
