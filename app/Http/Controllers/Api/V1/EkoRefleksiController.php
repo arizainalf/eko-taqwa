@@ -245,7 +245,7 @@ class EkoRefleksiController extends Controller
 
             $validated = $request->validate([
                 'judul'        => 'required|string|max:255',
-                'deskripsi'    => 'required|string',
+                'deskripsi'    => 'nullable|string',
                 'tanggal'      => 'required|date',
                 'gambar'       => 'sometimes|image|mimes:jpeg,png,jpg,gif|max:2048',
                 'hapus_gambar' => 'sometimes|boolean',
