@@ -50,7 +50,7 @@ Route::prefix('v1')->group(function () {
     });
 
     // Eko Ayat Hadist
-    Route::prefix('ayat-hadist')->group(function () {
+    Route::prefix('ayat_hadist')->group(function () {
         Route::get('/jenis_tema/{temaId}', [EkoAyatHadistController::class, 'tema']);
         Route::get('/tema/{temaId}', [EkoAyatHadistController::class, 'ayatHadist']);
         Route::get('/{id}', [EkoAyatHadistController::class, 'showAyatHadist']);
