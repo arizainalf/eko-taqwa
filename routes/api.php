@@ -74,8 +74,8 @@ Route::prefix('v1')->group(function () {
             Route::get('/', [EkoRefleksiController::class, 'refleksiHarian']);
             Route::get('/{id}', [EkoRefleksiController::class, 'showRefleksiHarian']);
             Route::post('/', [EkoRefleksiController::class, 'storeRefleksi']);
-            Route::put('/{id}', [EkoRefleksiController::class, 'updateRefleksiHarian']);
-            Route::patch('/{id}', [EkoRefleksiController::class, 'updateRefleksiHarian']);
+            Route::put('/{id}', [EkoRefleksiController::class, 'editRefleksiHarian']);
+            Route::patch('/{id}', [EkoRefleksiController::class, 'editRefleksiHarian']);
             Route::delete('/{id}', [EkoRefleksiController::class, 'deleteRefleksiHarian']);
         });
 
