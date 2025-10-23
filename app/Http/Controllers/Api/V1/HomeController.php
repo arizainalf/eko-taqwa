@@ -1,8 +1,9 @@
 <?php
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
 use App\Models\Cp;
+use App\Models\Dalil;
 use App\Models\Device;
 use App\Models\Kaidah;
 use App\Models\Kuis;
@@ -60,26 +61,15 @@ class HomeController extends Controller
      */
     public function index(Request $request)
     {
-        $deviceId = $request->header('Device-ID');
-
-        $device = Device::where('id', $deviceId)->first();
 
         $stats = [
-            'total_tema'     => Tema::count(),
-            'total_kuis'     => Kuis::where('aktif', true)->count(),
-            'total_video'    => Video::count(),
-            'total_cp'       => Cp::count(),
-            'total_kaidah'   => Kaidah::count(),
-            'total_refleksi' => Refleksi::count(),
-            'random_video'   => Video::inRandomOrder()->first(),
-            'device'         => $device,
-            'kuis_selesai'   => $device ? $device->hasilKuis()->count() : 0,
+            'total_kuis'        => Kuis::where('aktif', true)->count(),
+            'total_video'       => Video::count(),
+            'total_cp'          => Cp::count(),
+            'total_kaidah'      => Kaidah::count(),
+            'total_ayat_hadist' => Dalil::count(),
+            'random_video'      => Video::inRandomOrder()->first(),
         ];
-
-        $featuredTema = Tema::with(['jenisTema', 'video'])
-            ->latest()
-            ->take(5)
-            ->get();
 
         $activeKuis = Kuis::withCount('pertanyaan')
             ->where('aktif', true)
@@ -88,10 +78,8 @@ class HomeController extends Controller
             ->get();
 
         return $this->successResponse([
-            'stats'         => $stats,
-            'featured_tema' => $featuredTema,
-            'active_kuis'   => $activeKuis,
-            'device'        => $device,
+            'stats'       => $stats,
+            'active_kuis' => $activeKuis,
         ]);
     }
 

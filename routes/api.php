@@ -1,65 +1,84 @@
 <?php
 
-use App\Http\Controllers\Api\DeviceController;
-use App\Http\Controllers\Api\EkoAyatHadistController;
-use App\Http\Controllers\Api\EkoCpController;
-use App\Http\Controllers\Api\EkoKaidahController;
-use App\Http\Controllers\Api\EkoMediaController;
-use App\Http\Controllers\Api\EkoRefleksiController;
-use App\Http\Controllers\Api\HomeController;
+use App\Http\Controllers\Api\V1\DeviceController;
+use App\Http\Controllers\Api\V1\EkoAyatHadistController;
+use App\Http\Controllers\Api\V1\EkoCpController;
+use App\Http\Controllers\Api\V1\EkoKaidahController;
+use App\Http\Controllers\Api\V1\EkoMediaController;
+use App\Http\Controllers\Api\V1\EkoRefleksiController;
+use App\Http\Controllers\Api\V1\HomeController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/home', [HomeController::class, 'index']);
+// Public API Routes (tanpa auth)
+Route::prefix('v1')->group(function () {
 
-Route::post('/device/create', [DeviceController::class, 'create']);
-Route::get('/device/{id}', [DeviceController::class, 'show']);
+    // Home
+    Route::get('/home', [HomeController::class, 'index']);
 
-//Eko CP
+    // Device
+    Route::prefix('device')->group(function () {
+        Route::post('/create', [DeviceController::class, 'create']);
+        Route::get('/{id}', [DeviceController::class, 'show']);
+    });
 
-Route::get('/fase', [EkoCpController::class, 'fase']);
-Route::get('/fase/{faseId}/mapel', [EkoCpController::class, 'mapel']);
-Route::get('/fase/{faseId}/mapel/{mapelId}/metode', [EkoCpController::class, 'metodePembelajaran']);
-Route::get('/fase/{faseId}/mapel/{mapelId}/metode/{metode}', [EkoCpController::class, 'cpByFaseMapelMP']);
-Route::get('/cp', [EkoCpController::class, 'allCp']);
-Route::get('/cp/{id}', [EkoCpController::class, 'showCp']);
+    // Eko CP
+    Route::prefix('cp')->group(function () {
+        Route::get('/', [EkoCpController::class, 'allCp']);
+        Route::get('/{id}', [EkoCpController::class, 'showCp']);
+        Route::get('/fase', [EkoCpController::class, 'fase']);
+        Route::get('/fase/{faseId}/mapel', [EkoCpController::class, 'mapel']);
+        Route::get('/fase/{faseId}/mapel/{mapelId}/metode', [EkoCpController::class, 'metodePembelajaran']);
+        Route::get('/fase/{faseId}/mapel/{mapelId}/metode/{metode}', [EkoCpController::class, 'cpByFaseMapelMP']);
+    });
 
-//Eko Media
+    // Eko Media
+    Route::prefix('media')->group(function () {
+        Route::get('/jenis_tema', [EkoMediaController::class, 'jenisTema']);
+        Route::get('/jenis_tema/{jenisTemaId}/tema', [EkoMediaController::class, 'tema']);
+        Route::get('/tema/{temaId}/media', [EkoMediaController::class, 'media']);
+        Route::get('/{id}', [EkoMediaController::class, 'showMedia']);
+    });
 
-Route::get('/jenis_tema', [EkoMediaController::class, 'jenisTema']);
-Route::get('/jenis_tema/{jenisTemaId}/tema', [EkoMediaController::class, 'tema']);
-Route::get('/tema/{temaId}/media', [EkoMediaController::class, 'media']);
-Route::get('/media/{id}', [EkoMediaController::class, 'showMedia']);
+    // Eko Kaidah
+    Route::prefix('kaidah')->group(function () {
+        Route::get('/jenis_tema/{temaId}/kaidah', [EkoKaidahController::class, 'tema']);
+        Route::get('/tema/{temaId}/kaidah', [EkoKaidahController::class, 'kaidah']);
+    });
 
-//Eko Kaidah
+    // Eko Ayat Hadist
+    Route::prefix('ayat-hadist')->group(function () {
+        Route::get('/jenis_tema/{temaId}/ayat_hadist', [EkoAyatHadistController::class, 'tema']);
+        Route::get('/tema/{temaId}/ayat_hadist', [EkoAyatHadistController::class, 'ayatHadist']);
+        Route::get('/{id}', [EkoAyatHadistController::class, 'showAyatHadist']);
+        Route::get('/search/{query}', [EkoAyatHadistController::class, 'searchAyatHadist']);
+    });
 
-Route::get('/jenis_tema/{temaId}/kaidah', [EkoKaidahController::class, 'tema']);
-Route::get('/tema/{temaId}/kaidah', [EkoKaidahController::class, 'kaidah']);
+    // Eko Refleksi
+    Route::prefix('refleksi')->group(function () {
+        Route::get('/', [EkoRefleksiController::class, 'index']);
 
-//EKo Ayat Hadist
+        // Kuis
+        Route::prefix('kuis')->group(function () {
+            Route::get('/', [EkoRefleksiController::class, 'kuis']);
+            Route::get('/{id}/device/{deviceId}', [EkoRefleksiController::class, 'kuisDetail']);
+            Route::get('/{id}/pertanyaan', [EkoRefleksiController::class, 'pertanyaan']);
+            Route::post('/', [EkoRefleksiController::class, 'simpanHasil']);
+        });
 
-Route::get('/jenis_tema/{temaId}/ayat_hadist', [EkoAyatHadistController::class, 'tema']);
-Route::get('/tema/{temaId}/ayat_hadist', [EkoAyatHadistController::class, 'ayatHadist']);
-Route::get('/ayat_hadist/{id}', [EkoAyatHadistController::class, 'showAyatHadist']);
-Route::get('/ayat_hadist/search/{query}', [EkoAyatHadistController::class, 'searchAyatHadist']);
+        // Refleksi Harian
+        Route::prefix('harian')->group(function () {
+            Route::get('/', [EkoRefleksiController::class, 'refleksiHarian']);
+            Route::get('/{id}', [EkoRefleksiController::class, 'showRefleksiHarian']);
+            Route::post('/', [EkoRefleksiController::class, 'storeRefleksi']);
+            Route::put('/{id}', [EkoRefleksiController::class, 'editRefleksiHarian']);
+            Route::patch('/{id}', [EkoRefleksiController::class, 'editRefleksiHarian']);
+            Route::delete('/{id}', [EkoRefleksiController::class, 'deleteRefleksiHarian']);
+        });
 
-//Eko Refleksi
-
-Route::get('/refleksi', [EkoRefleksiController::class, 'index']);
-
-//kuis
-
-Route::get('/kuis', [EkoRefleksiController::class, 'kuis']);
-Route::get('/kuis/{id}/device/{deviceId}', [EkoRefleksiController::class, 'kuisDetail']);
-Route::get('/kuis/{id}/pertanyaan', [EkoRefleksiController::class, 'pertanyaan']);
-Route::post('/kuis', [EkoRefleksiController::class, 'simpanHasil']);
-
-//refleksi harian
-
-Route::get('/refleksi_harian', [EkoRefleksiController::class, 'refleksiHarian']);
-Route::get('/refleksi_harian/{id}', [EkoRefleksiController::class, 'showRefleksiHarian']);
-Route::post('/refleksi_harian', [EkoRefleksiController::class, 'storeRefleksi']);
-
-//tanya jawab
-
-Route::get('/tanya_jawab/{deviceId}', [EkoRefleksiController::class, 'chat']);
-Route::post('/tanya_jawab/send', [EkoRefleksiController::class, 'sendMessage']);
+        // Tanya Jawab (Chat)
+        Route::prefix('chat')->group(function () {
+            Route::get('/{deviceId}', [EkoRefleksiController::class, 'chat']);
+            Route::post('/send', [EkoRefleksiController::class, 'sendMessage']);
+        });
+    });
+});

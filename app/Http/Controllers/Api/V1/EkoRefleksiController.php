@@ -1,5 +1,5 @@
 <?php
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
 use App\Models\Chat;
@@ -12,6 +12,7 @@ use App\Traits\ApiResponder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class EkoRefleksiController extends Controller
@@ -233,6 +234,77 @@ class EkoRefleksiController extends Controller
     {
         $refleksi = Refleksi::find($id);
         return $this->successResponse($refleksi, 'List of Refleksi retrieved successfully.');
+    }
+    public function editRefleksiHarian($id, Request $request)
+    {
+        $refleksi = Refleksi::findOrFail($id);
+
+        $validated = $request->validate([
+            'gambar'    => 'nullable|mimes:png,jpg,jpeg|max:2048',
+            'judul'     => 'required|string|max:255',
+            'deskripsi' => 'nullable|string',
+            'tanggal'   => 'required|date',
+        ]);
+
+        try {
+            // Handle upload gambar jika ada
+            if ($request->hasFile('gambar')) {
+                // Hapus gambar lama jika ada
+                if ($refleksi->gambar) {
+                    $oldImagePath = 'refleksi/' . basename($refleksi->gambar);
+                    if (Storage::disk('public')->exists($oldImagePath)) {
+                        Storage::disk('public')->delete($oldImagePath);
+                    }
+                }
+
+                // Upload gambar baru ke directory 'refleksi' di disk 'public'
+                $gambarPath          = $request->file('gambar')->store('refleksi', 'public');
+                $validated['gambar'] = $gambarPath;
+            }
+
+            // Update data
+            $refleksi->update($validated);
+
+            return $this->successResponse($refleksi, 'refleksi success edited');
+
+        } catch (\Exception $e) {
+            return $this->errorResponse('', $e->getMessage());
+        }
+    }
+
+    public function deleteRefleksiHarian($id)
+    {
+        try {
+            $refleksi = Refleksi::findOrFail($id);
+
+            // Hapus gambar dari storage jika ada
+            if ($refleksi->gambar) {
+                // Cek format penyimpanan gambar di database
+                if (filter_var($refleksi->gambar, FILTER_VALIDATE_URL)) {
+                    // Jika berupa URL, extract path-nya
+                    $path = 'refleksi/' . basename($refleksi->gambar);
+                } else if (str_contains($refleksi->gambar, 'refleksi/')) {
+                    // Jika sudah dalam format path
+                    $path = $refleksi->gambar;
+                } else {
+                    // Jika hanya nama file
+                    $path = 'refleksi/' . $refleksi->gambar;
+                }
+
+                // Hapus file dari storage
+                if (Storage::disk('public')->exists($path)) {
+                    Storage::disk('public')->delete($path);
+                }
+            }
+
+            // Hapus data dari database
+            $refleksi->delete();
+
+            return $this->successResponse(null, 'refleksi deleted successfully.');
+
+        } catch (\Exception $e) {
+            return $this->errorResponse('', $e->getMessage());
+        }
     }
 
     /**

@@ -18,7 +18,7 @@ class RefleksiForm
                     ->required(),
                 FileUpload::make('gambar')
                     ->image()
-                    ->directory('refleksi')
+                    ->directory(directory: 'refleksi')
                     ->disk('public')
                     ->visibility('public')
                     ->maxSize(2048),
