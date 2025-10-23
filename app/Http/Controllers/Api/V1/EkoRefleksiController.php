@@ -104,7 +104,7 @@ class EkoRefleksiController extends Controller
 
         $data = [
             'kuis'         => $kuis,
-            'diselesaikan' => $done_count(),
+            'diselesaikan' => $done_count,
             'hasil_kuis'   => $done,
         ];
 
