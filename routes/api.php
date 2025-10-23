@@ -25,10 +25,13 @@ Route::prefix('v1')->group(function () {
     Route::prefix('cp')->group(function () {
         Route::get('/', [EkoCpController::class, 'allCp']);
         Route::get('/{id}', [EkoCpController::class, 'showCp']);
-        Route::get('/fase', [EkoCpController::class, 'fase']);
-        Route::get('/fase/{faseId}/mapel', [EkoCpController::class, 'mapel']);
-        Route::get('/fase/{faseId}/mapel/{mapelId}/metode', [EkoCpController::class, 'metodePembelajaran']);
-        Route::get('/fase/{faseId}/mapel/{mapelId}/metode/{metode}', [EkoCpController::class, 'cpByFaseMapelMP']);
+    });
+
+    Route::prefix(prefix: 'fase')->group(function () {
+        Route::get('/', [EkoCpController::class, 'fase']);
+        Route::get('/{faseId}/mapel', [EkoCpController::class, 'mapel']);
+        Route::get('/{faseId}/mapel/{mapelId}/metode', [EkoCpController::class, 'metodePembelajaran']);
+        Route::get('/{faseId}/mapel/{mapelId}/metode/{metode}', [EkoCpController::class, 'cpByFaseMapelMP']);
     });
 
     // Eko Media
