@@ -34,24 +34,25 @@ Route::prefix('v1')->group(function () {
         Route::get('/{faseId}/mapel/{mapelId}/metode/{metode}', [EkoCpController::class, 'cpByFaseMapelMP']);
     });
 
+    Route::get('/jenis_tema', [EkoMediaController::class, 'jenisTema']);
+
     // Eko Media
     Route::prefix('media')->group(function () {
-        Route::get('/jenis_tema', [EkoMediaController::class, 'jenisTema']);
-        Route::get('/jenis_tema/{jenisTemaId}/tema', [EkoMediaController::class, 'tema']);
-        Route::get('/tema/{temaId}/media', [EkoMediaController::class, 'media']);
+        Route::get('/jenis_tema/{jenisTemaId}', [EkoMediaController::class, 'tema']);
+        Route::get('/tema/{temaId}', [EkoMediaController::class, 'media']);
         Route::get('/{id}', [EkoMediaController::class, 'showMedia']);
     });
 
     // Eko Kaidah
     Route::prefix('kaidah')->group(function () {
-        Route::get('/jenis_tema/{temaId}/kaidah', [EkoKaidahController::class, 'tema']);
-        Route::get('/tema/{temaId}/kaidah', [EkoKaidahController::class, 'kaidah']);
+        Route::get('/jenis_tema/{temaId}', [EkoKaidahController::class, 'tema']);
+        Route::get('/tema/{temaId}', [EkoKaidahController::class, 'kaidah']);
     });
 
     // Eko Ayat Hadist
     Route::prefix('ayat-hadist')->group(function () {
-        Route::get('/jenis_tema/{temaId}/ayat_hadist', [EkoAyatHadistController::class, 'tema']);
-        Route::get('/tema/{temaId}/ayat_hadist', [EkoAyatHadistController::class, 'ayatHadist']);
+        Route::get('/jenis_tema/{temaId}', [EkoAyatHadistController::class, 'tema']);
+        Route::get('/tema/{temaId}', [EkoAyatHadistController::class, 'ayatHadist']);
         Route::get('/{id}', [EkoAyatHadistController::class, 'showAyatHadist']);
         Route::get('/search/{query}', [EkoAyatHadistController::class, 'searchAyatHadist']);
     });
