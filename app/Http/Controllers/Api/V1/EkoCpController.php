@@ -167,12 +167,16 @@ class EkoCpController extends Controller
             ->where('mapel_id', $mapelId)
             ->where('metode_pembelajaran', $metode)
             ->get();
+        $data = [
+            'cp'     => $cp,
+            'metode' => $metode,
+        ];
 
         if ($cp->isEmpty()) {
             return $this->errorResponse([], 'No CP data found for the given criteria.', 404);
         }
 
-        return $this->successResponse($cp, 'CP data retrieved successfully.');
+        return $this->successResponse($data, 'CP data retrieved successfully.');
     }
 
     /**
