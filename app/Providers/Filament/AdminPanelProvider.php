@@ -34,9 +34,8 @@ class AdminPanelProvider extends PanelProvider
     {
 
         $logo = null;
-        $siteName = 'Eko Taqwa'; // Nama default
+        $siteName = 'Eko Taqwa';
 
-        // HANYA JALANKAN JIKA TABEL 'settings' SUDAH ADA
         if (Schema::hasTable('settings')) {
             $settings = app(GeneralSetting::class);
             $logo = $settings->logo_path
@@ -68,8 +67,7 @@ class AdminPanelProvider extends PanelProvider
                 Dashboard::class,
             ])
             ->plugin(
-                 ResizedColumnPlugin::make()
-                ->preserveOnDB()
+                 ResizedColumnPlugin::make()->preserveOnDB()
             )
             ->navigationGroups([
             NavigationGroup::make('Tema'),
