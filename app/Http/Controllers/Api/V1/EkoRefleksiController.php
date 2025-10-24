@@ -212,11 +212,6 @@ class EkoRefleksiController extends Controller
         return $this->successResponse($hasil, 'Hasil kuis berhasil disimpan.');
     }
 
-    public function hasilKuis($id)
-    {
-        $hasilKuis = HasilKuis::find($id);
-    }
-
     /**
      * @OA\Get(
      *     path="/api/refleksi/harian",

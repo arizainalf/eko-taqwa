@@ -11,7 +11,6 @@ use Illuminate\Support\Facades\Route;
 
 // Public API Routes (tanpa auth)
 Route::prefix('v1')->group(function () {
-
     // Home
     Route::get('/home', [HomeController::class, 'index']);
 
