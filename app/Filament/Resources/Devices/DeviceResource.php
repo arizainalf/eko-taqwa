@@ -1,19 +1,16 @@
 <?php
 namespace App\Filament\Resources\Devices;
 
-use UnitEnum;
-use BackedEnum;
-use App\Models\Device;
-use Filament\Tables\Table;
-use Filament\Schemas\Schema;
-use Filament\Resources\Resource;
-use Filament\Support\Icons\Heroicon;
-use App\Filament\Resources\Devices\Pages\EditDevice;
 use App\Filament\Resources\Devices\Pages\ListDevices;
-use App\Filament\Resources\Devices\Pages\CreateDevice;
 use App\Filament\Resources\Devices\Schemas\DeviceForm;
 use App\Filament\Resources\Devices\Tables\DevicesTable;
+use App\Models\Device;
+use BackedEnum;
 use CodeWithDennis\FilamentLucideIcons\Enums\LucideIcon;
+use Filament\Resources\Resource;
+use Filament\Schemas\Schema;
+use Filament\Tables\Table;
+use UnitEnum;
 
 class DeviceResource extends Resource
 {
@@ -44,9 +41,7 @@ class DeviceResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index'  => ListDevices::route('/'),
-            'create' => CreateDevice::route('/create'),
-            'edit'   => EditDevice::route('/{record}/edit'),
+            'index' => ListDevices::route('/'),
         ];
     }
 }

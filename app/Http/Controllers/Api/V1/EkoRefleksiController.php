@@ -233,65 +233,65 @@ class EkoRefleksiController extends Controller
         return $this->successResponse($refleksi, 'List of Refleksi retrieved successfully.');
     }
 
-public function updateRefleksiHarian(Request $request, $id)
-{
-    try {
-        $refleksi = Refleksi::findOrFail($id);
+    public function updateRefleksiHarian(Request $request, $id)
+    {
+        try {
+            $refleksi = Refleksi::findOrFail($id);
 
-        $validated = $request->validate([
-            'judul'        => 'required|string|max:255',
-            'deskripsi'    => 'nullable|string',
-            'tanggal'      => 'required|date',
-            'gambar'       => 'sometimes|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'hapus_gambar' => 'sometimes|string|in:1,0,true,false',
-        ]);
+            $validated = $request->validate([
+                'judul'        => 'required|string|max:255',
+                'deskripsi'    => 'nullable|string',
+                'tanggal'      => 'required|date',
+                'gambar'       => 'sometimes|image|mimes:jpeg,png,jpg,gif|max:2048',
+                'hapus_gambar' => 'sometimes|string|in:1,0,true,false',
+            ]);
 
-        // Convert string ke boolean
-        $hapusGambar = in_array($request->hapus_gambar, ['1', 'true']);
+            // Convert string ke boolean
+            $hapusGambar = in_array($request->hapus_gambar, ['1', 'true']);
 
-        $refleksi->judul     = $validated['judul'];
-        $refleksi->deskripsi = $validated['deskripsi'];
-        $refleksi->tanggal   = $validated['tanggal'];
+            $refleksi->judul     = $validated['judul'];
+            $refleksi->deskripsi = $validated['deskripsi'];
+            $refleksi->tanggal   = $validated['tanggal'];
 
-        // Handle penghapusan gambar
-        if ($hapusGambar) {
-            if ($refleksi->gambar) {
-                // Hapus file dari storage
-                $path = 'refleksi/' . basename($refleksi->gambar);
-                if (Storage::disk('public')->exists($path)) {
-                    Storage::disk('public')->delete($path);
-                }
-                $refleksi->gambar = null;
-            }
-        }
-
-        // Handle upload gambar baru
-        if ($request->hasFile('gambar')) {
-            // Hapus gambar lama jika ada
-            if ($refleksi->gambar) {
-                $oldPath = 'refleksi/' . basename($refleksi->gambar);
-                if (Storage::disk('public')->exists($oldPath)) {
-                    Storage::disk('public')->delete($oldPath);
+            // Handle penghapusan gambar
+            if ($hapusGambar) {
+                if ($refleksi->gambar) {
+                    // Hapus file dari storage
+                    $path = 'refleksi/' . basename($refleksi->gambar);
+                    if (Storage::disk('public')->exists($path)) {
+                        Storage::disk('public')->delete($path);
+                    }
+                    $refleksi->gambar = null;
                 }
             }
 
-            // Upload gambar baru - SIMPAN SEBAGAI PATH, BUKAN URL
-            $image = $request->file('gambar');
-            $imageName = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
-            $imagePath = $image->storeAs('refleksi', $imageName, 'public');
+            // Handle upload gambar baru
+            if ($request->hasFile('gambar')) {
+                // Hapus gambar lama jika ada
+                if ($refleksi->gambar) {
+                    $oldPath = 'refleksi/' . basename($refleksi->gambar);
+                    if (Storage::disk('public')->exists($oldPath)) {
+                        Storage::disk('public')->delete($oldPath);
+                    }
+                }
 
-            // SIMPAN PATH RELATIVE, BUKAN URL LENGKAP
-            $refleksi->gambar = $imagePath; // 'refleksi/image_name.jpg'
+                // Upload gambar baru - SIMPAN SEBAGAI PATH, BUKAN URL
+                $image     = $request->file('gambar');
+                $imageName = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
+                $imagePath = $image->storeAs('refleksi', $imageName, 'public');
+
+                                                // SIMPAN PATH RELATIVE, BUKAN URL LENGKAP
+                $refleksi->gambar = $imagePath; // 'refleksi/image_name.jpg'
+            }
+
+            $refleksi->save();
+
+            return $this->successResponse($refleksi, 'Refleksi updated successfully');
+
+        } catch (\Exception $e) {
+            return $this->errorResponse('', $e->getMessage());
         }
-
-        $refleksi->save();
-
-        return $this->successResponse($refleksi, 'Refleksi updated successfully');
-
-    } catch (\Exception $e) {
-        return $this->errorResponse('', $e->getMessage());
     }
-}
     public function editRefleksiHarian($id, Request $request)
     {
         $refleksi = Refleksi::findOrFail($id);
@@ -535,6 +535,7 @@ public function updateRefleksiHarian(Request $request, $id)
     {
         // Ambil riwayat (5 percakapan terakhir)
         $history = Chat::where('device_id', $deviceId)
+            ->where('jenis', 'chat')
             ->orderBy('created_at', 'desc')
             ->limit(2)
             ->orderBy('created_at', 'asc')
@@ -602,7 +603,7 @@ public function updateRefleksiHarian(Request $request, $id)
                 'message' => $e->getMessage(),
                 'trace'   => $e->getTraceAsString(),
             ]);
-            throw $e; // Lempar ulang exception
+            throw $e;
         }
     }
 }

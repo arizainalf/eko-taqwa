@@ -51,33 +51,19 @@ class DeviceController extends Controller
     {
         $request->validate([
             'device_id' => 'required|string|max:255',
-            'name'      => 'required|string|max:255|unique:device',
+            'name'      => 'required|string|max:255',
         ]);
 
-        $device = Device::where('device_id', $request->device_id)->first();
+        $device = Device::updateOrCreate(
+            ['device_id' => $request->device_id],
+            ['name' => $request->name]
+        );
 
-        if (! $device) {
-
-            $newdevice = Device::create([
-                'device_id' => $request->device_id,
-                'name'      => $request->name,
-            ]);
-
-            $data = [
-                'device' => $newdevice,
-            ];
-
-            return $this->successResponse($data, 'Device created successfully.');
-        } else {
-            $device->name = $request->name;
-            $device->save();
-            $data = [
-                'device' => $device,
-            ];
-
-            return $this->successResponse($data, 'Devidata: ce has been created before.');
-        }
-
+        return $this->successResponse([
+            'device' => $device,
+        ], $device->wasRecentlyCreated
+                ? 'Device created successfully.'
+                : 'Device updated successfully.');
     }
 
     /**
@@ -107,7 +93,7 @@ class DeviceController extends Controller
      *         response=404,
      *         description="Device tidak ditemukan"
      *     )
-    * )
+     * )
      */
     public function show($id)
     {

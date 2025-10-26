@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\V1\ChatController;
 use App\Http\Controllers\Api\V1\DeviceController;
 use App\Http\Controllers\Api\V1\EkoAyatHadistController;
 use App\Http\Controllers\Api\V1\EkoCpController;
@@ -24,6 +25,8 @@ Route::prefix('v1')->group(function () {
     Route::prefix('cp')->group(function () {
         Route::get('/', [EkoCpController::class, 'allCp']);
         Route::get('/{id}', [EkoCpController::class, 'showCp']);
+        Route::get('/{faseId}/mapel/{mapelId}/metode/{metode}/chat/{deviceId}', [ChatController::class, 'chatCp']);
+        Route::get('/{faseId}/mapel/{mapelId}/metode/{metode}/send-message/{deviceId}', [ChatController::class, 'sendMessageCp']);
     });
 
     Route::prefix('fase')->group(function () {
@@ -46,6 +49,8 @@ Route::prefix('v1')->group(function () {
     Route::prefix('kaidah')->group(function () {
         Route::get('/jenis_tema/{temaId}', [EkoKaidahController::class, 'tema']);
         Route::get('/tema/{temaId}', [EkoKaidahController::class, 'kaidah']);
+        Route::get('/tema/{temaId}/chat/{deviceId}', [ChatController::class, 'chatKaidah']);
+        Route::get('/tema/{temaId}/chat/{deviceId}/send-message/{jenis}', [ChatController::class, 'SendMessageKaidah']);
     });
 
     // Eko Ayat Hadist
@@ -54,6 +59,8 @@ Route::prefix('v1')->group(function () {
         Route::get('/tema/{temaId}', [EkoAyatHadistController::class, 'ayatHadist']);
         Route::get('/{id}', [EkoAyatHadistController::class, 'showAyatHadist']);
         Route::get('/search/{query}', [EkoAyatHadistController::class, 'searchAyatHadist']);
+        Route::get('/tema/{temaId}/chat/{deviceId}', [ChatController::class, 'chatDalil']);
+        Route::get('/tema/{temaId}/chat/{deviceId}/send-message/{jenis}', [ChatController::class, 'SendMessageDalil']);
     });
 
     // Eko Refleksi
