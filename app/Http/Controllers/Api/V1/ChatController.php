@@ -173,6 +173,8 @@ class ChatController extends Controller
         $latestChat = '';
         $prompt     = '';
 
+        $jenis = ucfirst($jenis);
+
         if ($previousChat) {
             // ambil jawaban terakhir (jika perlu)
             $lastChat   = $previousChat;
