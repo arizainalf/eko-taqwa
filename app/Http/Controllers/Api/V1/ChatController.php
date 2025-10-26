@@ -69,7 +69,7 @@ class ChatController extends Controller
         $latestChat = '';
         $prompt     = '';
 
-        if ($previousChat->count() > 0) {
+        if ($previousChat) {
             // ambil jawaban terakhir (jika perlu)
             $lastChat   = $previousChat;
             $latestChat = "dan berikut contoh dalil yang sudah ada: {$lastChat->jawaban}";
@@ -173,9 +173,9 @@ class ChatController extends Controller
         $latestChat = '';
         $prompt     = '';
 
-        if ($previousChat->count() > 0) {
+        if ($previousChat) {
             // ambil jawaban terakhir (jika perlu)
-            $lastChat   = $previousChat->last();
+            $lastChat   = $previousChat;
             $latestChat = "dan berikut contoh dalil yang sudah ada: {$lastChat->jawaban}";
 
             $prompt = "Dari tema dan contoh dalil berikut:\n
@@ -259,7 +259,7 @@ class ChatController extends Controller
         $latestChat = '';
         $prompt     = '';
 
-        if ($previousChat->count() > 0) {
+        if ($previousChat) {
             // ambil jawaban terakhir (jika perlu)
             $lastChat   = $previousChat;
             $latestChat = "dan berikut contoh kaidah yang sudah ada: {$lastChat->jawaban}";
