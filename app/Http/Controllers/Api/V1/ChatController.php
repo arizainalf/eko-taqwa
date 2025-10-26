@@ -37,9 +37,9 @@ class ChatController extends Controller
 
         $dalil = Chat::where('jenis', 'cp')
             ->where('device_id', $device->id)
-            ->where('jawaban', 'like', '%' . $fase->nama . '%')
-            ->where('jawaban', 'like', '%' . $mapel->nama . '%')
-            ->where('jawaban', 'like', '%' . $metode . '%')
+            ->where('jawaban', 'like', '% Fase : ' . $fase->nama . '%')
+            ->where('jawaban', 'like', '% Mapel : ' . $mapel->nama . '%')
+            ->where('jawaban', 'like', '% Metode Pembelajaran : ' . $metode . '%')
             ->get();
 
         return $this->successResponse($dalil, 'Chat CP proceed Successfully');
@@ -88,7 +88,7 @@ class ChatController extends Controller
             Carikan capaian pembelajaran lain dan balas hanya dengan format:\n
             Fase : {$fase->nama}
             Mapel : {$mapel->nama}\n
-            Metode : Di {$metode}\n
+            Metode Pembelajaran : Di {$metode}\n
             Judul : judul cpnya\n
             Deskripsi : deskripsi cpnya\n
             Pendekatan : pendekatanya\n
@@ -189,6 +189,7 @@ class ChatController extends Controller
             Tema : {$tema->nama}\n
             Jenis : {$jenis} \n
             Dalil : dalilnya \n
+            Latin : tulis transliterasi huruf Arab ke huruf Latin (misal 'al-khairu min al-khairi', bukan bahasa Latin Eropa)
             Sumber : sumbernya\n
             Terjemahan : terjemahannya\n
             Penjelasan : penjelasannya\n
@@ -206,7 +207,7 @@ class ChatController extends Controller
             Jenis : {$jenis}\n
             Dalil : dalilnya\n
             Sumber : sumbernya\n
-            Latin : transliterasi dalam bahasa latin dari dalil arabnya\n
+            Latin : tulis transliterasi huruf Arab ke huruf Latin (misal 'al-khairu min al-khairi', bukan bahasa Latin Eropa)
             Terjemahan : terjemahan\n
             Penjelasan : penjelasanya\n
             hanya balas dengan format tersebut";
@@ -260,37 +261,45 @@ class ChatController extends Controller
 
         if ($previousChat->count() > 0) {
             // ambil jawaban terakhir (jika perlu)
-            $lastChat   = $previousChat->last();
+            $lastChat   = $previousChat;
             $latestChat = "dan berikut contoh kaidah yang sudah ada: {$lastChat->jawaban}";
 
-            $prompt = "Dari tema dan contoh kaidah berikut:\n
-            Tema : {$tema->nama}
-            Jenis kaidah : {$jenis}\n
-            Kaidah : {$kaidah->kaidah}\n
-            Terjemahan : {$kaidah->terjemahan}\n
-            Penjelasan : {$kaidah->deskripsi}\n
-            Carikan kaidah lain dan balas hanya dengan format:\n
-            Tema : {$tema->nama}\n
-            Jenis Kaidah : {$jenis} \n
-            Kaidah : kaidahnya \n
-            Kaidah Latin : kaidah latinnya\n
-            Terjemahan : terjemahannya\n
-            Penjelasan : penjelasannya\n
+            $jenis = ucfirst($jenis);
+
+            $prompt = "Dari tema dan contoh kaidah berikut:
+            Tema: {$tema->nama}
+            Jenis kaidah: {$jenis}
+            Kaidah: {$kaidah->kaidah}
+            Terjemahan: {$kaidah->terjemahan}
+            Penjelasan: {$kaidah->deskripsi}
+
+            Carikan satu kaidah lain yang masih berkaitan, lalu balas hanya dengan format berikut (jangan gunakan bahasa Latin klasik seperti 'bonum' atau 'malum'):
+
+            Tema: {$tema->nama}
+            Jenis Kaidah: {$jenis}
+            Kaidah: tulis teks Arab-nya
+            Kaidah Latin: tulis transliterasi huruf Arab ke huruf Latin (misal 'al-khairu min al-khairi', bukan bahasa Latin Eropa)
+            Terjemahan: tulis arti kaidah dalam bahasa Indonesia
+            Penjelasan: tulis penjelasan singkat tentang makna kaidah
+
             {$latestChat}";
+
         } else {
-            $prompt = "Dari tema dan contoh kaidah berikut:\n
-            Tema : {$tema->nama}
-            Jenis kaidah : {$jenis}\n
-            Kaidah : {$kaidah->kaidah}\n
-            Terjemahan : {$kaidah->terjemahan}\n
-            Penjelasan : {$kaidah->deskripsi}\n
-            Carikan kaidah lain dan balas hanya dengan format:\n
-            Tema : {$tema->nama}\n
-            Jenis Kaidah : {$jenis}\n
-            Kaidah : kaidah\n
-            Kaidah latin : transliterasi dalam bahasa latin dari kaidah arabnya\n
-            Terjemahan : terjemahan\n
-            Penjelasan : penjelasanya";
+            $prompt = "Dari tema dan contoh kaidah berikut:
+            Tema: {$tema->nama}
+            Jenis kaidah: {$jenis}
+            Kaidah: {$kaidah->kaidah}
+            Terjemahan: {$kaidah->terjemahan}
+            Penjelasan: {$kaidah->deskripsi}
+
+            Carikan satu kaidah lain yang masih berkaitan, lalu balas hanya dengan format berikut (jangan gunakan bahasa Latin klasik seperti 'bonum' atau 'malum'):
+
+            Tema: {$tema->nama}
+            Jenis Kaidah: {$jenis}
+            Kaidah: tulis teks Arab-nya
+            Kaidah Latin: tulis transliterasi huruf Arab ke huruf Latin (misal 'al-khairu min al-khairi', bukan bahasa Latin Eropa)
+            Terjemahan: tulis arti kaidah dalam bahasa Indonesia
+            Penjelasan: tulis penjelasan singkat tentang makna kaidah";
         }
 
         try {
