@@ -42,7 +42,7 @@ class ChatController extends Controller
             ->where('jawaban', 'like', '%' . $metode . '%')
             ->get();
 
-        return $this->successResponse(['chat_dalil' => $dalil], 'Chat CP proceed Successfully');
+        return $this->successResponse($dalil, 'Chat CP proceed Successfully');
     }
 
     public function SendMessageCp($faseId, $mapelId, $metode, $deviceId)
