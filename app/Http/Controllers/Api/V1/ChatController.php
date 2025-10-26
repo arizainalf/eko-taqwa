@@ -236,7 +236,8 @@ class ChatController extends Controller
 
         $device = Device::where('device_id', $deviceId)->first();
 
-        $kaidah = Chat::where('jenis', 'kaidah')->where('device_id', $device->id)->where('jawaban', 'REGEXP', $tema->nama)->get();
+        $kaidah = Chat::where('jenis', 'kaidah')->where('device_id', $device->id)
+        ->where('jawaban', 'like', '% Tema : '.$tema->nama)->get();
 
         return $this->successResponse(['chat_kaidah' => $kaidah], 'Chat Kaidah proceed Successfully');
 
