@@ -63,14 +63,15 @@ class ChatController extends Controller
             ->where('jawaban', 'like', '%' . $fase->nama . '%')
             ->where('jawaban', 'like', '%' . $mapel->nama . '%')
             ->where('jawaban', 'like', '%' . $metode . '%')
-            ->latest();
+            ->latest()
+            ->first();
 
         $latestChat = '';
         $prompt     = '';
 
         if ($previousChat->count() > 0) {
             // ambil jawaban terakhir (jika perlu)
-            $lastChat   = $previousChat->last();
+            $lastChat   = $previousChat;
             $latestChat = "dan berikut contoh dalil yang sudah ada: {$lastChat->jawaban}";
 
             $prompt = "Dari fase, mapel dan contoh capaian pembelajaran berikut:\n
