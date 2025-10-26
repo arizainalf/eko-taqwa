@@ -253,19 +253,21 @@ class ChatController extends Controller
 
         $previousChat = Chat::where('jenis', 'kaidah')
             ->where('device_id', $device->id)
-            ->where('jawaban', 'like', '%Tema : ' . $tema->nama . '%')
+            ->where('jawaban', 'like', '%Tema: ' . $tema->nama . '%')
+            ->where('jawaban', 'like', '%Jenis Kaidah: ' . ucfirst($jenis). '%')
             ->latest()
             ->first();
 
         $latestChat = '';
         $prompt     = '';
 
+        $jenis = ucfirst($jenis);
+
         if ($previousChat) {
             // ambil jawaban terakhir (jika perlu)
             $lastChat   = $previousChat;
             $latestChat = "dan berikut contoh kaidah yang sudah ada: {$lastChat->jawaban}";
 
-            $jenis = ucfirst($jenis);
 
             $prompt = "Dari tema dan contoh kaidah berikut:
             Tema: {$tema->nama}
