@@ -150,7 +150,7 @@ class ChatController extends Controller
 
         $dalil = Chat::where('jenis', 'dalil')
             ->where('device_id', $device->id)
-            ->where('jawaban', 'like', '%Tema: ' . $tema->nama . '%')
+            ->where('jawaban', 'like', '%Tema : ' . $tema->nama . '%')
             ->get();
 
         return $this->successResponse(['chat_dalil' => $dalil], 'Chat Kaidah proceed Successfully');
