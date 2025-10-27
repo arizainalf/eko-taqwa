@@ -153,7 +153,7 @@ class ChatController extends Controller
             ->where('jawaban', 'like', '%Tema : ' . $tema->nama . '%')
             ->get();
 
-        return $this->successResponse(['chat_dalil' => $dalil], 'Chat Kaidah proceed Successfully');
+        return $this->successResponse($dalil, 'Chat Kaidah proceed Successfully');
     }
 
     public function SendMessageDalil($temaId, $deviceId, $jenis)
