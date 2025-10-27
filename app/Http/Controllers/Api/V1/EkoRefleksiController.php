@@ -431,7 +431,7 @@ class EkoRefleksiController extends Controller
                 return $this->errorResponse([], 'Device not found', 404);
             }
 
-            $chats = Chat::where('device_id', $device->id)->get();
+            $chats = Chat::where('device_id', $device->id)->where('jenis', 'chat')->get();
             return $this->successResponse($chats, 'Chat history retrieved successfully.');
         } catch (\Exception $e) {
             return $this->errorResponse([], $e->getMessage(), 500);
