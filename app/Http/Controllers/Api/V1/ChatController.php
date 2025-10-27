@@ -35,14 +35,14 @@ class ChatController extends Controller
 
         $device = Device::where('device_id', $deviceId)->first();
 
-        $dalil = Chat::where('jenis', 'cp')
+        $cp = Chat::where('jenis', 'cp')
             ->where('device_id', $device->id)
             ->where('jawaban', 'like', '% Fase : ' . $fase->nama . '%')
             ->where('jawaban', 'like', '% Mapel : ' . $mapel->nama . '%')
             ->where('jawaban', 'like', '% Metode Pembelajaran : ' . $metode . '%')
             ->get();
 
-        return $this->successResponse($dalil, 'Chat CP proceed Successfully');
+        return $this->successResponse($cp, 'Chat CP proceed Successfully');
     }
 
     public function SendMessageCp($faseId, $mapelId, $metode, $deviceId)
@@ -60,9 +60,9 @@ class ChatController extends Controller
 
         $previousChat = Chat::where('jenis', 'cp')
             ->where('device_id', $device->id)
-            ->where('jawaban', 'like', '%' . $fase->nama . '%')
-            ->where('jawaban', 'like', '%' . $mapel->nama . '%')
-            ->where('jawaban', 'like', '%' . $metode . '%')
+            ->where('jawaban', 'like', '%Fase : ' . $fase->nama . '%')
+            ->where('jawaban', 'like', '%Mapel : ' . $mapel->nama . '%')
+            ->where('jawaban', 'like', '%Metode Pembalaran : Di ' . $metode . '%')
             ->latest()
             ->first();
 
