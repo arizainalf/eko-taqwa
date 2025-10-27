@@ -538,7 +538,6 @@ class EkoRefleksiController extends Controller
             ->where('jenis', 'chat')
             ->orderBy('created_at', 'desc')
             ->limit(2)
-            ->orderBy('created_at', 'asc')
             ->get();
 
         $messages = [
