@@ -24,8 +24,9 @@ class KuisForm
                             ->required()
                             ->numeric()
                             ->suffix('Menit')
-                            ->default(60),
+                            ->default(10),
                         Toggle::make('aktif')
+                            ->default(true)
                             ->required(),
                     ])->columnSpanFull(),
             ]);
