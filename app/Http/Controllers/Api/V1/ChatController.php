@@ -39,7 +39,7 @@ class ChatController extends Controller
             ->where('device_id', $device->id)
             ->where('jawaban', 'like', '% Fase : ' . $fase->nama . '%')
             ->where('jawaban', 'like', '% Mapel : ' . $mapel->nama . '%')
-            ->where('jawaban', 'like', '% Metode Pembelajaran : ' . $metode . '%')
+            ->where('jawaban', 'like', '% Metode Pembelajaran : Di ' . $metode . '%')
             ->get();
 
         return $this->successResponse($cp, 'Chat CP proceed Successfully');
